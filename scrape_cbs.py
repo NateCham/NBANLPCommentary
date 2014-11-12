@@ -87,12 +87,12 @@ def parse(games):
             for i in range(0, len(all_plays)):
                 if all_plays[i].score == '':
                    all_plays[i].score = all_plays[i-1].score 
-                print(all_plays[i])
+                #print(all_plays[i])
 
 if __name__ == "__main__":
-    full_schedule = "/Users/natecham/Downloads/leagues_NBA_2014_games_games.csv"
+    full_schedule = "leagues_NBA_2014_games_games.csv"
     base_url = 'http://www.cbssports.com/nba/gametracker/playbyplay/'
-    games_dir = '/Users/natecham/Desktop/nba_games/'
+    games_dir = 'webpages/cbs_gamepages/'
     games = []
 
     with open(full_schedule) as schedule:
@@ -105,10 +105,10 @@ if __name__ == "__main__":
             games.append(Game(game_date, home_team, away_team))
         
 
-    for g in games:
-        play_by_play = 'NBA_' + g.game_date + '_' + teams[g.away_team] + '@' + teams[g.home_team]
+    #for g in games:
+        #play_by_play = 'NBA_' + g.game_date + '_' + teams[g.away_team] + '@' + teams[g.home_team]
         #time.sleep(2)
-        print("downloading: " + play_by_play)
+        #print("downloading: " + play_by_play)
         #urllib.request.urlretrieve(base_url + play_by_play, '/Users/natecham/Desktop/nba_games/' + play_by_play + '.html')
         #r = requests.get(base_url + play_by_play)
 
