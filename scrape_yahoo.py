@@ -4,6 +4,7 @@
 
 import csv, re
 from datetime import datetime
+from urllib.request import urlretrieve
 
 """
 1) Get game URL list
@@ -67,6 +68,39 @@ team_id = {
     'Washington Wizards' : '27'
 }
 
+team_abrvs = {
+    'Atlanta Hawks' : 'ATL',
+    'Boston Celtics' : 'BOS',
+    'Brooklyn Nets' : 'BKN',
+    'Charlotte Bobcats' : 'CHA',
+    'Chicago Bulls' : 'CHI',
+    'Cleveland Cavaliers' : 'CLE',
+    'Dallas Mavericks' : 'DAL',
+    'Denver Nuggets' : 'DEN',
+    'Detroit Pistons' : 'DET',
+    'Golden State Warriors' : 'GS',
+    'Houston Rockets' : 'HOU',
+    'Indiana Pacers' : 'IND',
+    'Los Angeles Clippers' : 'LAC',
+    'Los Angeles Lakers' : 'LAL',
+    'Memphis Grizzlies' : 'MEM',
+    'Miami Heat' : 'MIA',
+    'Milwaukee Bucks' : 'MIL',
+    'Minnesota Timberwolves' : 'MIN',
+    'New Orleans Pelicans' : 'NO',
+    'New York Knicks' : 'NY',
+    'Oklahoma City Thunder' : 'OKC',
+    'Orlando Magic' : 'ORL',
+    'Philadelphia 76ers' : 'PHI',
+    'Phoenix Suns' : 'PHO',
+    'Portland Trail Blazers' : 'POR',
+    'Sacramento Kings' : 'SAC',
+    'San Antonio Spurs' : 'SA',
+    'Toronto Raptors' : 'TOR',
+    'Utah Jazz' : 'UTA',
+    'Washington Wizards' : 'WAS'
+}
+
 # game_date = datetime.strptime(game[0], '%a %b %d %Y').strftime('%Y%m%d')
 # game = [date, Box Score, Away team, score, Home team, score, OT?, notes?]
 # http://sports.yahoo.com/nba/chicago-bulls-miami-heat-2013102914/
@@ -81,11 +115,28 @@ def create_game_url_list():
     for game in games:
         date_string = datetime.strptime(game[0], '%a %b %d %Y').strftime('%Y%m%d')
         team_string = '-'.join(game[2].lower().split()) + '-' + '-'.join(game[4].lower().split())
-        unique_string = team_string + '-' + date_string + team_id[game[2]]
+        unique_string = team_string + '-' + date_string + team_id[game[4]]
         full_url = base_url + unique_string + '/'
         urls.append(full_url)
     
     return urls
 
+def get_game_url_list():
+    directory = "./webpages/yahoo/2013_season_urls.txt"
+    url_list = list(map(lambda l: l.strip(), open(directory).readlines()))
+    return url_list
 
+def crawl_web_pages():
+    urls = get_game_url_list()
+    
+    for url in urls[:5]:
+        date_string = url[-11:-3]
+        teams = ' '.join(url[28:-12].split('-')[:3])
+        away = [team_abrvs[name] for name in team_abrvs if name.lower() in teams][0]
+        home = team_abrvs[[name for name in team_id if team_id[name] == url[-3:-1]][0]]
+        name = date_string + '_' + away + '@' + home + '.html'
+        
+        print("downloading:", name)
+        urlretrieve(url, './webpages/yahoo' + name)
 
+# http://sports.yahoo.com/nba/orlando-magic-indiana-pacers-2013102919/
