@@ -3,6 +3,7 @@
 # Jacob Bustamante
 
 import csv, re
+from time import sleep
 from datetime import datetime
 from urllib.request import urlretrieve
 
@@ -129,7 +130,7 @@ def get_game_url_list():
 def crawl_web_pages():
     urls = get_game_url_list()
     
-    for url in urls[:5]:
+    for url in urls[615:]:
         date_string = url[-11:-3]
         teams = ' '.join(url[28:-12].split('-')[:3])
         away = [team_abrvs[name] for name in team_abrvs if name.lower() in teams][0]
@@ -137,6 +138,12 @@ def crawl_web_pages():
         name = date_string + '_' + away + '@' + home + '.html'
         
         print("downloading:", name)
-        urlretrieve(url, './webpages/yahoo' + name)
+        urlretrieve(url, './webpages/yahoo/' + name)
+        sleep(1)
 
-# http://sports.yahoo.com/nba/orlando-magic-indiana-pacers-2013102919/
+
+def main():
+    crawl_web_pages()
+
+if __name__ == '__main__':
+    main()
