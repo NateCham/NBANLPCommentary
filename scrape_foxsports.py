@@ -119,8 +119,6 @@ def insert_play(description):
             play['timeout_type'] = timeout.group(2)
         elif official:
             play['timeout_type'] = 'official'
-        else:
-            print(description)
     elif play['play_type'] == 'substitution':
         sub = re.search('Substitution: (.*) in for (.*)\.', description)
         play['primary_player'] = sub.group(1)
@@ -146,12 +144,15 @@ def insert_play(description):
         steal = re.search('(.*) steals the ball from (.*)\.', description)
         play['primary_player'] = steal.group(1)
         play['secondary_player'] = steal.group(2)
-    elif play['play_type'] == 'turnover' or play['play_type'] == 'kick' or play['play_type'] == 'delay of game':
+    elif play['play_type'] == 'turnover' or play['play_type'] == 'kick' or play['play_type'] == 'delay of game' or play['play_type'] == 'illegal assist' or play['play_type'] == 'violation':
         turnover = re.search('(.*) is charged with a turnover due to a (.*)\.', description)
         turnover2 = re.search('(.*) with a (.*) turnover', description)
         shot_clock = re.search('(.*) with a turnover: (.*)', description)
         kick = re.search('(.*) kicks the ball\. (.*) ball\.', description)
         delay = re.search('(.*) commit a delay of game violation\. (.*) ball\.', description)
+        illegal_assist = re.search('(.*) with a illegal assist turnover', description)
+        violation = re.search('(.*) with a lane violation', description)
+        double_lane = re.search('Violation: Double Lane', description)
         if turnover:
             play['primary_player'] = turnover.group(1)
         elif turnover2:
@@ -166,6 +167,14 @@ def insert_play(description):
         elif delay:
             play['team'] = delay.group(1)
             play['turnover_type'] = 'delay of game'
+        elif illegal_assist:
+            play['primary_player'] = illegal_assist.group(1)
+            play['turnover_type'] = 'illegal assist'
+        elif violation:
+            play['primary_player'] = violation.group(1)
+            play['turnover_type'] = 'lane violation'
+        elif double_lane:
+            play['play_type'] = 'double lane violation'
         else:
             print(description)
     elif play['play_type'] == 'blocks':
@@ -195,14 +204,16 @@ def insert_play(description):
             play['secondary_player'] = other_dunk.group(2)
         else:
             print(description)
-        
+    elif play['play_type'] == 'ejected':
+        ejected = re.search('(.*) ejected', description)
+        play['primary_player'] = ejected.group(1)
     elif play['play_type'] != 'start' and play['play_type'] != 'end':
         print(description)
 
     return play 
 
 def play_type(play_description):
-    keywords = 'blocks|rebound|substitution|foul|timeout|free throw|steal|turnover|start|end|jump ball|assist|kick|delay of game'
+    keywords = 'illegal assist|blocks|rebound|substitution|foul|timeout|free throw|steal|turnover|start|end|jump ball|assist|kick|delay of game|violation|ejected'
     shot = 'shot|make|miss|dunk'
     
     result = re.search(keywords, play_description)
