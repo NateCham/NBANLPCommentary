@@ -265,8 +265,6 @@ def insert_into_db(data):
 
             conn.execute('INSERT INTO play_by_play (' + ','.join(columns) + ') VALUES (' + ','.join(['?'] * len(columns)) + ')', insert_data)
 
-    
-
 def parse(games_dir):
     for f in glob.glob(os.path.join(games_dir, '*.html')):
         #print(f)

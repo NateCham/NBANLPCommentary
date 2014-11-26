@@ -25,6 +25,13 @@ create table play_by_play (
 );
 
 /*
+create table player (
+  id integer not null primary key,
+  first_name not null text,
+  last_name not null text,
+  team integer not null references team(id)
+);
+
 create table team (
   id integer not null primary key,
   city text not null,
@@ -47,7 +54,6 @@ create table game (
   home_score integer not null,
   away_score integer not null
 );
-
 
 create table division (
   id integer not null primary key,
