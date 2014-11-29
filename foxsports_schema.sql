@@ -2,7 +2,7 @@ drop table if exists play_by_play;
 
 create table play_by_play (
   id integer not null primary key autoincrement,
-  game integer references game(id),
+  game_id integer references game(id),
   quarter integer,
   minutes integer,
   seconds integer,
@@ -10,6 +10,8 @@ create table play_by_play (
   away_score integer,
   team text,
   description text,
+  event_description text,
+  detail_description text,
   play_type text default 'other', 
   primary_player text,
   secondary_player,
@@ -24,6 +26,15 @@ create table play_by_play (
   turnover_type
 );
 
+create table game (
+  id integer primary key autoincrement,
+  season text,
+  game_date date,
+  home_team text,
+  away_team text,
+  game_type text
+);
+
 /*
 create table player (
   id integer not null primary key,
@@ -33,7 +44,7 @@ create table player (
 );
 
 create table team (
-  id integer not null primary key,
+  id integer not null primary key autoincrement,
   city text not null,
   name text not null,
   division not null integer
@@ -46,14 +57,6 @@ create table player (
   team integer not null references team(id)
 );
 
-create table game (
-  id integer primary key,
-  played_on date not null,
-  home_team integer not null references team(id),
-  away_team integer not null references team(id),
-  home_score integer not null,
-  away_score integer not null
-);
 
 create table division (
   id integer not null primary key,
