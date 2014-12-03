@@ -7,6 +7,7 @@ import json
 import re
 import os
 import sqlite3
+import insert_into_db
 
 
 teams = {
@@ -309,72 +310,32 @@ def play_type(play_description):
     else:
         return ''
 
-def get_value(play, column):
-    if column in play:
-        return play[column]
-    else:
-        return None
+def get_player(p):
+    player = {}
+    player['first_name'] = p['name']['first-name']
+    player['last_name'] = p['name']['last_name']
+    player['weight'] = p['weight']['pounds']
+    player['height'] = p['height']['inches']
+    player['number'] = p['player-number']['number']
+    player['experience'] = p['experience']['experience']
+    player['school'] = p['school']['school']
+    player['primary_position'] = p['primary-position']['name']
+    player['foxsports-id'] = p['player-code']['global-id']
+    player['team_code'] = p['team-code']['id']
 
-def get_column_name(key):
-    columns = {'quarter': 'quarter', 
-               'minutes': 'time-minutes', 
-               'seconds': 'time-seconds',
-               'home_score': 'home-score',
-               'away_score': 'visitor-score',
-               'team': 'team',
-               'description': 'textual-description',
-               'play_type': 'play_type',
-               'primary_player': 'primary_player', 
-               'event_description': 'event_description',
-               'detail_description': 'detail_description',
-               'shot_type': 'shot_type',
-               'shot_made': 'shot_made',
-               'shot_distance': 'shot_distance',
-               'x_coord': 'x-shot-coord',
-               'y_coord': 'y-shot-coord',
-               'timeout_type': 'timeout_type',
-               'foul_type': 'foul_type',
-               'rebound_type': 'rebound_type',
-               'secondary_player': 'secondary_player',
-               'turnover_type': 'turnover_type',
-               'game_id': 'game_id'
-            }
-    return columns[key]
-
-def insert_into_db(data):
-    away_team = data['gameInfo']['visiting-team']['team-name']['alias'].upper()
-    home_team = data['gameInfo']['home-team']['team-name']['alias'].upper()
-    season = data['gameInfo']['season']['season']
-    game_date = data['gameInfo']['date']
-    game_type = data['gameInfo']['gametype']['type']
-    
-    game_info = [season, game_date, home_team, away_team, game_type]
-
-
-    with sqlite3.connect('foxsports.db') as conn:
-        cursor = conn.cursor()
-        cursor.execute('INSERT INTO game (season, game_date, home_team, away_team, game_type) VALUES (' + ','.join(['?'] * len(game_info)) + ')', game_info)
-        game_id = cursor.lastrowid
-        for play in data['pbp']['sports-scores']['nba-scores']['nba-playbyplay']['play']:
-            
-            insert = insert_play(play['textual-description'])
-            insert.update(play)
-            insert['event_description'] = play['event-description']
-            insert['detail_description'] = play['detail-description']
-            insert['game_id'] = game_id
-            columns = ['event_description', 'detail_description', 'game_id', 'quarter', 'minutes', 'seconds', 'home_score', 'away_score', 'description', 'play_type', 'primary_player', 'secondary_player', 'shot_made', 'shot_distance', 'x_coord', 'y_coord', 'timeout_type', 'foul_type', 'rebound_type', 'shot_type', 'turnover_type']
-            insert_data = [get_value(insert, get_column_name(d)) for d in columns]
-
-            cursor.execute('INSERT INTO play_by_play (' + ','.join(columns) + ') VALUES (' + ','.join(['?'] * len(columns)) + ')', insert_data)
+def add_players(playerInfo):
+    for p in playerInfo:
+        get_player(p)
 
 def parse(games_dir):
     for html_file in glob.glob(os.path.join(games_dir, '*.html')):
         with open(html_file, errors='ignore') as open_file:
             soup = BeautifulSoup(open_file)
             script = soup.find('script', text=re.compile('nba\.initialUpdate'))
+            eastern_time = re.search(r'nba\.easternStartTime\s=\s({.*});', script.string).group(1)
             json_data = re.search(r'nba\.initialUpdate\s*=\s*({.*?})\s*;', script.string).group(1)
             json_object = json.loads(json_data)
-            insert_into_db(json_object)
+            insert_into_db.insert_into_db(json_object)
 
 def download_gamepages(games, games_dir):
     base_url = 'http://www.foxsports.com/nba/gameTrax?gameId='
