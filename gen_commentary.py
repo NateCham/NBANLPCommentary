@@ -1,6 +1,6 @@
 # NBA NLP - Final Project - CSC 582
 # Commentary Generator - Main
-# Jacob Bustamante
+# Jacob Bustamante, Nate Chamness
 
 import sys, re, sqlite3, random
 import comment_strings
@@ -22,6 +22,11 @@ def event_comment_from_list(comments, play):
     return comments[i][0] % tuple(play[key] for key in comments[i][1])
     
 
+
+"""
+Shot commentary bid functions
+includes both shot and meta shot commentary
+"""
 bid_shot_counts = {'bid_shot_default':0, 'bid_shot_make':0, 'bid_shot_fastbreak':0}
 bid_shot_meta_counts = {'bid_shot_meta_default':0, 'bid_shot_first':0, 'bid_shot_longest':0}
 
@@ -131,6 +136,10 @@ def event_shot(play):
     return output
 
 
+"""
+Start of game commentary bid functions
+"""
+
 def display_starting_lineup(game_id):
     cursor = conn.cursor()
     cursor.execute("select city, name, group_concat(first_name || ' ' || last_name, ', ') as starters "
@@ -160,7 +169,7 @@ def event_game_start():
 
 
 """
-End of game bid functions
+End of game commentary bid functions
 """
 bid_end_first_counts = {'bid_game_end_first_default':0}
 
@@ -209,6 +218,9 @@ def get_game_info(game_id):
                    "WHERE game.id = " + str(game_id))
     game_info = cursor.fetchone()
     
+    if not game_info:
+        return None
+    
     cursor.execute("SELECT home_team_score, away_team_score "
                    "FROM schedule "
                    "WHERE game_id = " + str(game_id))
@@ -226,26 +238,16 @@ def get_game_info(game_id):
         game_info['loser_team_name'] = game_info['home_team']
         game_info['loser_score'] = game_info['home_team_score']
     
-    if not game_info:
-        return None
-    else:
-        #game_info = dict(zip(headers, data))
-        game_info['game_id'] = game_id
-        return game_info
+    game_info['game_id'] = game_id
+    return game_info
 
 def get_game_plays(game_id):
     plays = []
     headers = ['play_by_play.id as pbp_id', 'event_description', 'detail_description', 'game_id', 'quarter', 'minutes', 'seconds', 'home_score', 'away_score', 'description', 'play_type', 'primary_player', 'secondary_player', 'shot_made', 'shot_distance', 'x_coord', 'y_coord', 'timeout_type', 'foul_type', 'rebound_type', 'shot_type', 'turnover_type', 'points_worth', 'p_player_id', 's_player_id']
     
-    #with sqlite3.connect('foxsports.db') as conn:
     cursor = conn.cursor()
-    #cursor.execute("SELECT " + ','.join(headers) + " FROM play_by_play where game_id = " + str(game_id))
     cursor.execute("SELECT " + ','.join(headers) + ", name, team.id as t_id FROM play_by_play JOIN team ON team.id = play_by_play.team_id where game_id = " + str(game_id))
     data = cursor.fetchall()
-    
-    if not data:
-        return None
-    #plays = [dict(zip(headers, play)) for play in data]
     
     return data
 
@@ -254,37 +256,41 @@ def get_game_plays(game_id):
 def main():
     global DEBUG, game_info, game_plays
     
-    if len(sys.argv) > 2:
-        if sys.argv[2] == 'debug':
-            DEBUG = True
+    if len(sys.argv) > 2 and sys.argv[2] == 'debug':
+        DEBUG = True
     if len(sys.argv) > 1:
         game_id = sys.argv[1]
     else:
         game_id = 0
     
-    if DEBUG:
-        print('game_id:', game_id)
-    
-    
-    
     game_info = get_game_info(game_id)
+    game_plays = get_game_plays(game_id)
+    
     if not game_info:
         print('game_id',game_id,'not found')
+        return
     if DEBUG:
+        print('game_id:', game_id)
         print(game_info)
-    game_plays = get_game_plays(game_id)
 
 
-    # Start game
+    """
+    Start game commentary loop
+    """
+    # Game start commentary
     parse_comment(event_game_start(), (1,12,0))
+    
+    # Main game loop
     for play_index, play in enumerate(game_plays):
         play['play_index'] = play_index
+        game_time = (play['quarter'], play['minutes'], play['seconds'])
+        
         if play['play_type'] in ['shot', 'assist', 'blocks']:
-            game_time = (play['quarter'], play['minutes'], play['seconds'])
             parse_comment(event_shot(play), game_time)
         elif DEBUG:
             print("UNPARSED PLAY_TYPE:", play['play_type'])
     
+    # End game commentary
     parse_comment(event_game_end(), (4,0,0))
 
 
