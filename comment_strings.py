@@ -57,3 +57,6 @@ shot_longest_player_comments = [
     ("Wow! At %s feet, that's %s's longest shot of this season.", ['shot_distance', 'primary_player'])
 ]
 
+game_end_first_default_comments = [
+    ("The %s end the game with a %s to %s victory over the %s.", ['winner_team_name', 'winner_score', 'loser_score', 'loser_team_name'])
+]

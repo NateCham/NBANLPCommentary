@@ -158,11 +158,35 @@ def event_game_start():
 
     return output
 
+
+"""
+End of game bid functions
+"""
+bid_end_first_counts = {'bid_game_end_first_default':0}
+
+def bid_game_end_first_default(game_info):
+    global game_plays
+    
+    return (.25, event_comment_from_list(comment_strings.game_end_first_default_comments, game_info), 'bid_game_end_first_default')
+    
+
 def event_game_end():
     global DEBUG, game_info, game_plays
     
     output = []
+    max_bid_first = max([globals()[bid_function](game_info) for bid_function in bid_end_first_counts.keys()])
+    bid_end_first_counts[max_bid_first[2]] += 1
+    output.append(max_bid_first[1])
+    
+    return output
 
+
+"""
+Other functions
+"""
+
+
+# all comments are pushed through here to have a central output interface
 def parse_comment(output_comments, game_time):
     time_string = str(game_time[0]) + " " + str(game_time[1]) + ':' + str(game_time[2])
     
@@ -174,21 +198,38 @@ def parse_comment(output_comments, game_time):
     
 
 def get_game_info(game_id):
-    headers = ['season', 'game_date', 'home_team', 'away_team', 'game_type']
+    headers = ['season', 'game_date', 'home_team', 'away_team', 'game_type', 'home_score', 'away_score', 'game_code', 'stadium']
     
-    with sqlite3.connect('foxsports.db') as conn:
-        cursor = conn.cursor();
-        cursor.execute("SELECT season, game_date, t1.name, t2.name, game_type "
-                       "FROM game JOIN team as t1 "
-                       " ON home_team = t1.id JOIN team as t2 "
-                       " ON away_team = t2.id "
-                       "WHERE game.id = " + str(game_id))
-        data = cursor.fetchone()
     
-    if not data:
+    cursor = conn.cursor();
+    cursor.execute("SELECT season, game_date, t1.name as home_team, t2.name as away_team, game_type, home_score, away_score, game_code, stadium "
+                   "FROM game JOIN team as t1 "
+                   " ON home_team = t1.id JOIN team as t2 "
+                   " ON away_team = t2.id "
+                   "WHERE game.id = " + str(game_id))
+    game_info = cursor.fetchone()
+    
+    cursor.execute("SELECT home_team_score, away_team_score "
+                   "FROM schedule "
+                   "WHERE game_id = " + str(game_id))
+    game_info.update(cursor.fetchone())
+    
+    # get winner / loser
+    if game_info['home_team_score'] > game_info['away_team_score']:
+        game_info['winner_team_name'] = game_info['home_team']
+        game_info['winner_score'] = game_info['home_team_score']
+        game_info['loser_team_name'] = game_info['away_team']
+        game_info['loser_score'] = game_info['away_team_score']
+    else:
+        game_info['winner_team_name'] = game_info['away_team']
+        game_info['winner_score'] = game_info['away_team_score']
+        game_info['loser_team_name'] = game_info['home_team']
+        game_info['loser_score'] = game_info['home_team_score']
+    
+    if not game_info:
         return None
     else:
-        game_info = dict(zip(headers, data))
+        #game_info = dict(zip(headers, data))
         game_info['game_id'] = game_id
         return game_info
 
@@ -229,6 +270,8 @@ def main():
     game_info = get_game_info(game_id)
     if not game_info:
         print('game_id',game_id,'not found')
+    if DEBUG:
+        print(game_info)
     game_plays = get_game_plays(game_id)
 
 
