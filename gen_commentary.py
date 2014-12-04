@@ -22,12 +22,20 @@ def event_comment_from_list(comments, play):
     return comments[i][0] % tuple(play[key] for key in comments[i][1])
     
 
+bid_shot_counts = {'bid_shot_default':0, 'bid_shot_make':0, 'bid_shot_fastbreak':0}
+bid_shot_meta_counts = {'bid_shot_meta_default':0, 'bid_shot_first':0, 'bid_shot_longest':0}
 
-bid_shot_counts = {'bid_shot_default':0, 'bid_shot_fastbreak':0, 'bid_shot_first':0, 'bid_shot_longest':0}
+
+def bid_shot_make(play):
+    if play['shot_made'] != 'makes':
+        return (0, "", 'bid_shot_make')
+    
+    return (0.3, event_comment_from_list(comment_strings.make_comments, play), 'bid_shot_make')
+
 
 def bid_shot_fastbreak(play):
     if play['play_index'] - 1 <= 0 or play['shot_made'] != 'makes':
-        return (0, "fastbreak!", 'bid_shot_fastbreak')
+        return (0, "", 'bid_shot_fastbreak')
     
     last_play = game_plays[play['play_index'] - 1]
     
@@ -42,7 +50,7 @@ def bid_shot_fastbreak(play):
             play['fastbreak_creator'] = last_play['primary_player']
             play['fastbreak_play'] = 'rebound'
         else:
-            return (0, "fastbreak!", 'bid_shot_fastbreak')
+            return (0, "", 'bid_shot_fastbreak')
             
         if play['play_type'] == 'assist':
             if play['fastbreak_creator'] == play['secondary_player']:
@@ -57,9 +65,8 @@ def bid_shot_fastbreak(play):
             else:
                 return (0.7, event_comment_from_list(comment_strings.fastbreak_12_comments, play), 'bid_shot_fastbreak')
     else:
-        return (0, "fastbreak!", 'bid_shot_fastbreak')
-   
-    return (1, "fastbreak!", 'bid_shot_fastbreak')
+        return (0, "", 'bid_shot_fastbreak')
+
 
 def bid_shot_first(play):
     if play['quarter'] == 1:
@@ -72,7 +79,10 @@ def bid_shot_first(play):
         
         # First shot of the game
         if shot_count == 0:
-            return (0.9, event_comment_from_list(comment_strings.shot_first_comments, play), 'bid_shot_first')
+            if play['shot_made'] == 'makes':
+                return (0.9, event_comment_from_list(comment_strings.shot_first_made_comments, play), 'bid_shot_first')
+            else:
+                return (0.9, event_comment_from_list(comment_strings.shot_first_comments, play), 'bid_shot_first')
     
     return (0, "", 'bid_shot_first')
 
@@ -100,6 +110,8 @@ def bid_shot_longest(play):
 def bid_shot_default(play):
     return (0.25, play['description'], 'bid_shot_default')
 
+def bid_shot_meta_default(play):
+    return (0, "", 'bid_shot_meta_default')
 
 def event_shot(play):
     global game_plays
@@ -109,8 +121,13 @@ def event_shot(play):
     # bids are (bid_number, comment, bid_function_name)
     max_bid = max([globals()[bid_function](play) for bid_function in bid_shot_counts.keys()])
     bid_shot_counts[max_bid[2]] += 1
-    
     output.append(max_bid[1])
+    
+    max_bid_meta = max([globals()[bid_function](play) for bid_function in bid_shot_meta_counts.keys()])
+    if max_bid_meta[0] > 0:
+        bid_shot_meta_counts[max_bid_meta[2]] += 1
+        output.append(max_bid_meta[1])
+    
     return output
 
 
@@ -141,6 +158,10 @@ def event_game_start():
 
     return output
 
+def event_game_end():
+    global DEBUG, game_info, game_plays
+    
+    output = []
 
 def parse_comment(output_comments, game_time):
     time_string = str(game_time[0]) + " " + str(game_time[1]) + ':' + str(game_time[2])
@@ -212,12 +233,17 @@ def main():
 
 
     # Start game
-    parse_comment(event_game_start(), (0,0,0))
+    parse_comment(event_game_start(), (1,12,0))
     for play_index, play in enumerate(game_plays):
         play['play_index'] = play_index
         if play['play_type'] in ['shot', 'assist', 'blocks']:
             game_time = (play['quarter'], play['minutes'], play['seconds'])
             parse_comment(event_shot(play), game_time)
+        elif DEBUG:
+            print("UNPARSED PLAY_TYPE:", play['play_type'])
+    
+    parse_comment(event_game_end(), (4,0,0))
+
 
 if __name__ == '__main__':
     main()
