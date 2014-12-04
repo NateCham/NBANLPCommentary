@@ -122,13 +122,13 @@ select max(game_points) from (select sum(case when event_description in ('Field 
 
 
 
--- triple doubles
+-- number of double categories (points, assists, rebounds)
 select 
   game_id, 
   points, 
   assists, 
   rebounds, 
-  steals
+  steals,
   (case when points >= 10 then 1 else 0 end) + (case when rebounds >= 10 then 1 else 0 end) + (case when assists >= 10 then 1 else 0 end) as double_cats
 
 from (
@@ -140,5 +140,29 @@ from (
     sum(case when play_type = 'steal' and primary_player = 'Stephen Curry' then 1 else 0 end) steals
   from play_by_play
   where (primary_player = 'Stephen Curry' or secondary_player = 'Stephen Curry') 
+  group by game_id
+);
+
+
+
+
+select 
+  game_id, 
+  points, 
+  assists, 
+  rebounds,
+  blocks,
+  steals,
+  (case when points >= 10 then 1 else 0 end) + (case when rebounds >= 10 then 1 else 0 end) + (case when assists >= 10 then 1 else 0 end) + (case when blocks >= 10 then 1 else 0 end) + (case when steals >= 10 then 1 else 0 end) as double_cats
+from (
+  select 
+    game_id, 
+    sum(case when event_description in ('Field Goal Made', 'Free Throw Made') and p_player_id = player.foxsports_id then points_worth else 0 end) as points, 
+    sum(case when play_type = 'assist' and secondary_player = (player.first_name || ' ' || player.last_name) then 1 else 0 end) assists, 
+    sum(case when play_type = 'rebound' and primary_player = (player.first_name || ' ' || player.last_name) then 1 else 0 end) rebounds,
+    sum(case when play_type = 'steal' and primary_player = (player.first_name || ' ' || player.last_name) then 1 else 0 end) steals,
+    sum(case when play_type = 'blocks' and primary_player = (player.first_name || ' ' || player.last_name) then 1 else 0 end) blocks
+  from play_by_play, player
+  where (player.first_name || ' ' || player.last_name) in (primary_player, secondary_player) and foxsports_id = '338365' 
   group by game_id
 );

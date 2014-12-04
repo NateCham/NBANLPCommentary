@@ -62,8 +62,8 @@ class Game:
 def parse_shot(description):
     play = {}
 
-    shot = re.search('(.*) (makes|misses) an? (.*) shot? from (\d+) (feet|foot) out\.', description)
-    shot2 = re.search('(.*) (makes|misses) an? (.*) shot?\.', description)
+    shot = re.search('(.*) (makes|misses) an? (.*) (?:shot)? from (\d+) (feet|foot) out\.', description)
+    shot2 = re.search('(.*) (makes|misses) an? (.*) (?:shot)?\.', description)
     dunk = re.search('(.*) dunks\.', description)
     dunks_from = re.search('(.*) dunks from (\d) (foot|feet) out\.', description)
     if shot:
@@ -216,8 +216,8 @@ def parse_block(description):
 def parse_assist(description):
     play = {}
 
-    assist = re.search('(.*) makes an? ([^\.]+) shot?\. (.*) with the assist\.', description)
-    assist2 = re.search('(.*) makes an? (.*) shot? from (\d+) (feet|foot) out\. (.*) with the assist\.', description)
+    assist = re.search('(.*) makes an? ([^\.]+) (shot)?\. (.*) with the assist\.', description)
+    assist2 = re.search('(.*) makes an? (.*) (?:shot)?\s?from (\d+) (feet|foot) out\. (.*) with the assist\.', description)
     dunk = re.search('(.*) dunks from (\d) (foot|feet) out. (.*) with the assist\.', description)
     other_dunk = re.search('(.*) dunks\. (.*) with the assist\.', description)
     if assist2:
@@ -310,22 +310,6 @@ def play_type(play_description):
     else:
         return ''
 
-def get_player(p):
-    player = {}
-    player['first_name'] = p['name']['first-name']
-    player['last_name'] = p['name']['last_name']
-    player['weight'] = p['weight']['pounds']
-    player['height'] = p['height']['inches']
-    player['number'] = p['player-number']['number']
-    player['experience'] = p['experience']['experience']
-    player['school'] = p['school']['school']
-    player['primary_position'] = p['primary-position']['name']
-    player['foxsports-id'] = p['player-code']['global-id']
-    player['team_code'] = p['team-code']['id']
-
-def add_players(playerInfo):
-    for p in playerInfo:
-        get_player(p)
 
 def parse(games_dir):
     for html_file in glob.glob(os.path.join(games_dir, '*.html')):
