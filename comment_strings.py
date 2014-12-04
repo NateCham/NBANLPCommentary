@@ -4,9 +4,14 @@ Start of game commentary
 """
 game_start_lineup_comments = [
     ("The starting lineup for the %s %s is %s.", ('city', 'name', 'starters')),
-    ("%s are starting tonight for the %s %s.", ('starters', 'city', 'name'))
+    ("%s are starting tonight for the %s %s.", ('starters', 'city', 'name')),
+    ("The %s %s are starting %s.", ('city', 'name', 'starters'))
 ]
 
+
+assist_pair_avg_comments = [
+    ("These two have been playing great together for %s games this season. They've linked up for an assist an average %0.1f times per game.", ['num_games', 'assist_avg'])        
+]
 
 """
 Shot commentary
@@ -17,13 +22,19 @@ shot_first_comments = [
 ]
 
 shot_first_made_comments = [
-    ("That %s marks the first basket of the game.", ['shot_type']),
+    ("That %s shot marks the first basket of the game.", ['shot_type']),
     ("And there's the first basket of the game.", [])
 ]
 
 make_comments = [
     ("%s's %s shot is good.", ['primary_player', 'shot_type']),
     ("%s makes the basket.", ['primary_player'])
+]
+
+make_assist_comments = [
+    ("After the assist from %s, %s's %s shot is good.", ['secondary_player', 'primary_player', 'shot_type']),
+    ("%s makes the basket. %s with the assist.", ['primary_player', 'secondary_player']),
+    ("%s passes it off to %s, who finishes it with a %s shot", ['secondary_player', 'primary_player', 'shot_type']),
 ]
 
 make_long_comments = [
@@ -91,6 +102,18 @@ substitution_default_comments = [
     ("The %s sub in %s for %s.", ['name', 'primary_player', 'secondary_player'])
 ]
 
+substitution_off_bench_comments = [
+    ("%s comes off the bench for for %s.", ['primary_player', 'secondary_player']),
+]
+
+substitution_on_bench_comments = [
+    ("%s returns to the bench. The starter, %s, comes back on the floor.", ['secondary_player', 'primary_player']),
+]
+
+substitution_bench_points_comments = [
+    ("The %s bench has been doing great tonight, scoring %s of the team's %s points", ['name', 'bench_points', 'team_points'])
+]
+
 """
 Steal commentary
 """
@@ -98,6 +121,19 @@ steal_default_comments = [
     ("%s with the steal.", ['primary_player']),
     ("%s steals the ball from %s.", ['primary_player', 'secondary_player']),
     ("%s with the pick.", ['primary_player'])
+]
+
+
+"""
+Frethrow commentary
+"""
+
+free_throw_start_default_comments = [
+        ("%s is %s of %s from the line tonight. He's shooting free throws now.", ['primary_player', 'free_throws_made', 'tot_free_throws'])
+]
+
+free_throw_default_comments = [
+    ("%s", ['description'])
 ]
 
 """
@@ -137,18 +173,64 @@ rebound_default_comments = [
 ]
 
 """
+Jumpball commentary
+"""
+jumpball_default_comments = [
+    ("A jumpball is called.", []),
+    ("A jumpball is called in the %s's favor.", ['name'])
+]
+
+jumpball_first_comments = [
+    ("And here's the tipoff to start the game. %s on the %s gains possesion.", ['primary_player', 'name'])
+]
+
+"""
+Timeout commentary
+"""
+timeout_default_comments = [
+    ("A timeout is called by the %s.", ['name']),
+    ("The %s call a timeout.", ['name'])
+]
+
+timeout_team_losing_streak_comments = [
+    ("It's been a sad last few games for the %s. They've lost %s of their last %s games.", ['team_name', 'num_lost', 'num_past_games'])
+]
+
+timeout_team_winning_streak_comments = [
+    ("The %s have been on a great streak lately, winning %s of %s!", ['team_name', 'num_won', 'num_past_games'])
+]
+
+
+"""
 Start of game commentary
 """
-game_start_lineup_comments = [
-    ("The starting lineup for the %s %s is %s.", ('city', 'name', 'starters')),
-    ("%s are starting tonight for the %s %s.", ('starters', 'city', 'name'))
+game_start_first_default_comments = [
+    ("The %s will be playing the %s here in %s.", ['away_team', 'home_team', 'home_city'])
+]
+
+game_start_lineup_home_comments = [
+    ("The starting lineup for the %s %s is %s.", ('home_city', 'home_team', 'home_starters')),
+    ("%s are starting tonight for the %s %s.", ('home_starters', 'home_city', 'home_team')),
+    ("The %s %s are starting %s.", ('home_city', 'home_team', 'home_starters')),
+    ("The %s %s starting lineup for tonights game is %s.", ('home_city', 'home_team', 'home_starters'))
+]
+
+game_start_lineup_away_comments = [
+    ("The starting lineup for the %s %s is %s.", ('away_city', 'away_team', 'away_starters')),
+    ("%s are starting tonight for the %s %s.", ('away_starters', 'away_city', 'away_team')),
+    ("The %s %s are starting %s.", ('away_city', 'away_team', 'away_starters')),
+    ("The %s %s starting lineup for tonights game is %s.", ('away_city', 'away_team', 'away_starters'))
 ]
     
+game_start_record_comments = [
+    ("The %s are currently with a %s-%s record, while the %s stand with a %s-%s record", ('home_team', 'home_wins', 'away_losses', 'away_team', 'away_wins', 'away_losses')),
+]
+
 
 """
 End of game commentary
 """
 
 game_end_first_default_comments = [
-    ("The %s end the game with a %s to %s victory over the %s.", ['winner_team_name', 'winner_score', 'loser_score', 'loser_team_name'])
+    ("Game over. The %s end the game with a %s to %s victory over the %s. That ends the night here in %s.", ['winner_team_name', 'winner_score', 'loser_score', 'loser_team_name', 'home_city'])
 ]

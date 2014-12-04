@@ -216,7 +216,7 @@ def parse_block(description):
 def parse_assist(description):
     play = {}
 
-    assist = re.search('(.*) makes an? ([^\.]+) (shot)?\. (.*) with the assist\.', description)
+    assist = re.search('(.*) makes an? ([^\.]+)\s?(?:shot)?\. (.*) with the assist\.', description)
     assist2 = re.search('(.*) makes an? (.*) (?:shot)?\s?from (\d+) (feet|foot) out\. (.*) with the assist\.', description)
     dunk = re.search('(.*) dunks from (\d) (foot|feet) out. (.*) with the assist\.', description)
     other_dunk = re.search('(.*) dunks\. (.*) with the assist\.', description)

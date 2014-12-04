@@ -26,17 +26,199 @@ Game local variabls
 ejections = {}
 
 
+
+"""
+Freethrow commentary bid functions
+"""
+bid_free_throw_start_counts = {'bid_free_throw_start_default':0}
+bid_free_throw_counts = {'bid_free_throw_default':0}
+bid_free_throw_meta_counts = {'bid_free_throw_meta_default':0}
+
+def bid_free_throw_start_default(play):
+    if play['play_type'] == 'free throw':
+        cursor = conn.cursor()
+        cursor.execute('''select game_id, p_player_id, primary_player, sum(case when event_description = 'Free Throw Made' then 1 else 0 end) as free_made, sum(case when event_description = 'Free Throw Missed' then 1 else 0 end) as free_missed from play_by_play where game_id = ''' + str(play['game_id']) + ''' and p_player_id = ''' + str(play['p_player_id']) + ''' and id < ''' + str(play['pbp_id']))
+        free_throw_info = cursor.fetchone()
+        if free_throw_info and 'Free Throw 1' in play['detail_description']:
+            play['free_throws_made'] = free_throw_info['free_made']
+            play['tot_free_throws'] = free_throw_info['free_missed'] + free_throw_info['free_made']
+            return (0.5, event_comment_from_list(comment_strings.free_throw_start_default_comments, play), 'bid_free_throw_start_default')
+    
+    return (0, '', 'bid_free_throw_default')
+
+def bid_free_throw_default(play):
+    return (1, event_comment_from_list(comment_strings.free_throw_default_comments, play), 'bid_free_throw_default')
+
+def bid_free_throw_meta_default(play):
+    return (0, "", 'bid_free_throw_meta_default')
+
+def event_free_throw(play):
+    output = []
+    
+    max_bid_meta = max([globals()[bid_function](play) for bid_function in bid_free_throw_start_counts.keys()])
+    if max_bid_meta[0] > 0 and max_bid_meta[1]:
+        bid_free_throw_start_counts[max_bid_meta[2]] += 1
+        output.append(max_bid_meta[1])
+    
+    max_bid = max([globals()[bid_function](play) for bid_function in bid_free_throw_counts.keys()])
+    bid_free_throw_counts[max_bid[2]] += 1
+    output.append(max_bid[1])
+    
+    max_bid_meta = max([globals()[bid_function](play) for bid_function in bid_free_throw_meta_counts.keys()])
+    if max_bid_meta[0] > 0 and max_bid_meta[1]:
+        bid_free_throw_meta_counts[max_bid_meta[2]] += 1
+        output.append(max_bid_meta[1])
+    
+    return output
+
+
+"""
+Jumpball commentary bid functions
+"""
+bid_jumpball_counts = {'bid_jumpball_default':0}
+bid_jumpball_meta_counts = {'bid_jumpballl_meta_default':0}
+
+def bid_jumpball_default(play):
+    if play['quarter'] == 1 and play['minutes'] == 12 and play['seconds'] == 0:
+        return (0.9, event_comment_from_list(comment_strings.jumpball_first_comments, play), 'bid_jumpball_default')
+    return (0.25, event_comment_from_list(comment_strings.jumpball_default_comments, play), 'bid_jumpball_default')
+
+def bid_jumpballl_meta_default(play):
+    return (0, "", 'bid_jumpballl_meta_default')
+
+def event_jumpball(play):
+    output = []
+    
+    max_bid = max([globals()[bid_function](play) for bid_function in bid_jumpball_counts.keys()])
+    bid_jumpball_counts[max_bid[2]] += 1
+    output.append(max_bid[1])
+    
+    max_bid_meta = max([globals()[bid_function](play) for bid_function in bid_jumpball_meta_counts.keys()])
+    if max_bid_meta[0] > 0 and max_bid_meta[1]:
+        bid_jumpballl_meta_default[max_bid_meta[2]] += 1
+        output.append(max_bid_meta[1])
+    
+    return output
+
+
+"""
+Timeout commentary bid functions
+"""
+bid_timeout_counts = {'bid_timeout_default':0}
+bid_timeout_meta_counts = {'bid_timeout_meta_default':0, 'bid_timeout_team_streak':0}
+
+def bid_timeout_default(play):
+    return (0.25, event_comment_from_list(comment_strings.timeout_default_comments, play), 'bid_timeout_default')
+
+def bid_timeout_meta_default(play):
+    return (.4, "", 'bid_timeout_meta_default')
+
+def bid_timeout_team_streak(play):
+    if play['play_type'] == 'timeout':
+        cursor = conn.cursor()
+        cursor.execute("SELECT city, name, case when (home_team_score > away_team_score and team.id = home_team_id) or (away_team_score > home_team_score and team.id = away_team_id) then 'W' else 'L' end as WL from team, schedule "
+                       "where team.id = " + str(play['t_id']) + " "
+                       "and (home_team_id = team.id or away_team_id = team.id) "
+                       "and game_id < " + str(play['game_id']) + " "
+                       "order by game_id desc")
+        prev_games = cursor.fetchall()
+        if not prev_games:
+            return (0, "", 'bid_team_streak')
+        
+        #(wins, losses)
+        wins = 0
+        losses = 0
+        prev_games_ratio = []
+        for game in prev_games[:10]:
+            if game['WL'] == 'W':
+                wins += 1
+            else:
+                losses += 1
+            prev_games_ratio.append((wins, losses))
+
+        win_per = [(w, l) for (w, l) in prev_games_ratio if w/(w+l) >= .8 and w >= 3]
+        loss_per = [(l, w) for (w, l) in prev_games_ratio if l/(w+l) >= .8 and l >= 3]
+
+        play['team_name'] = prev_games[0]['name']
+        if win_per:
+            max_win = max(win_per)
+            play['num_past_games'] = max_win[0] + max_win[1]
+            play['num_won'] = max_win[0]
+            return (1 / (bid_timeout_meta_counts['bid_timeout_team_streak'] + 1), event_comment_from_list(comment_strings.timeout_team_winning_streak_comments, play), 'bid_timeout_team_streak')
+        elif loss_per:
+            max_loss = max(loss_per)
+            play['num_past_games'] = max_loss[0] + max_loss[1]
+            play['num_lost'] = max_loss[0]
+            return (1 / (bid_timeout_meta_counts['bid_timeout_team_streak'] + 1), event_comment_from_list(comment_strings.timeout_team_losing_streak_comments, play), 'bid_timeout_team_streak')
+    return (0, "", 'bid_team_streak')
+
+
+def event_timeout(play):
+    output = []
+    
+    max_bid = max([globals()[bid_function](play) for bid_function in bid_timeout_counts.keys()])
+    bid_timeout_counts[max_bid[2]] += 1
+    output.append(max_bid[1])
+    
+    max_bid_meta = max([globals()[bid_function](play) for bid_function in bid_timeout_meta_counts.keys()])
+    if max_bid_meta[0] > 0 and max_bid_meta[1]:
+        bid_timeout_meta_counts[max_bid_meta[2]] += 1
+        output.append(max_bid_meta[1])
+    
+    return output
+
+
 """
 Substitution commentary bid functions
 """
-bid_substitution_counts = {'bid_substitution_default':0}
-bid_substitution_meta_counts = {'bid_substitution_meta_default':0}
+bid_substitution_counts = {'bid_substitution_default':0, 'bid_substitution_off_bench':0}
+bid_substitution_meta_counts = {'bid_substitution_meta_default':0, 'bid_substitution_bench_points':0}
 
 def bid_substitution_default(play):
     return (0.25, event_comment_from_list(comment_strings.substitution_default_comments, play), 'bid_substitution_default')
 
+def bid_substitution_off_bench(play):
+    cursor = conn.cursor()
+    cursor.execute("select id, p_player_id, case when p_player_id not in (select p_player_id from play_by_play where description = 'Starting Lineup' and game_id = 1) then 1 else 0 end as 'coming off the bench', primary_player, secondary_player "
+                   "from play_by_play where event_description = 'Substitution' "
+                   "and description != 'Starting Lineup' "
+                   "and game_id = " + str(play['game_id']) + " "
+                   "and id = " + str(play['pbp_id']))
+    sub_data = cursor.fetchone()
+    if not sub_data:
+        return (0, "", 'bid_substitution_off_bench')
+    
+    if sub_data['coming off the bench']:
+        return (.7, event_comment_from_list(comment_strings.substitution_off_bench_comments, play), 'bid_substitution_off_bench')
+    else:
+        return (.8, event_comment_from_list(comment_strings.substitution_on_bench_comments, play), 'bid_substitution_off_bench')
+
+
 def bid_substitution_meta_default(play):
-    return (0, "", 'bid_substitution_meta_default')
+    return (0.4, "", 'bid_substitution_meta_default')
+
+def bid_substitution_bench_points(play):
+    global game_info
+    
+    if play['quarter'] < 3:
+        return (0, "", 'bid_substitution_bench_points')
+    
+    cursor = conn.cursor()
+    cursor.execute("select sum(case when event_description in ('Field Goal Made', 'Free Throw Made') and p_player_id not in (select p_player_id from play_by_play where description = 'Starting Lineup' and game_id = 1) then points_worth else 0 end) as bench_points "
+                   "from play_by_play "
+                   "where game_id = " + str(play['game_id']) + " "
+                   " and team_id = " + str(play['t_id']))
+    bench_data = cursor.fetchone()
+    
+    team_points = (play['home_score'] if play['t_id'] == game_info['home_team_id'] else play['away_score'])
+    
+    play['bench_points'] = bench_data['bench_points']
+    play['team_points'] = team_points
+    if bench_data['bench_points'] >= .4 * team_points:
+        return (1 / (bid_substitution_meta_counts['bid_substitution_bench_points'] + 1), event_comment_from_list(comment_strings.substitution_bench_points_comments, play), 'bid_substitution_bench_points')
+    else:
+        return (0, "", 'bid_substitution_bench_points')
+
 
 def event_substitution(play):
     output = []
@@ -46,7 +228,7 @@ def event_substitution(play):
     output.append(max_bid[1])
     
     max_bid_meta = max([globals()[bid_function](play) for bid_function in bid_substitution_meta_counts.keys()])
-    if max_bid_meta[0] > 0:
+    if max_bid_meta[0] > 0 and max_bid_meta[1]:
         bid_substitution_meta_counts[max_bid_meta[2]] += 1
         output.append(max_bid_meta[1])
     
@@ -73,7 +255,7 @@ def event_steal(play):
     output.append(max_bid[1])
     
     max_bid_meta = max([globals()[bid_function](play) for bid_function in bid_steal_meta_counts.keys()])
-    if max_bid_meta[0] > 0:
+    if max_bid_meta[0] > 0 and max_bid_meta[1]:
         bid_steal_meta_counts[max_bid_meta[2]] += 1
         output.append(max_bid_meta[1])
     
@@ -100,7 +282,7 @@ def event_rebound(play):
     output.append(max_bid[1])
     
     max_bid_meta = max([globals()[bid_function](play) for bid_function in bid_rebound_meta_counts.keys()])
-    if max_bid_meta[0] > 0:
+    if max_bid_meta[0] > 0 and max_bid_meta[1]:
         bid_rebound_meta_counts[max_bid_meta[2]] += 1
         output.append(max_bid_meta[1])
     
@@ -164,7 +346,7 @@ def event_foul(play):
     output.append(max_bid[1])
     
     max_bid_meta = max([globals()[bid_function](play) for bid_function in bid_foul_meta_counts.keys()])
-    if max_bid_meta[0] > 0:
+    if max_bid_meta[0] > 0 and max_bid_meta[1]:
         bid_foul_meta_counts[max_bid_meta[2]] += 1
         output.append(max_bid_meta[1])
     
@@ -176,7 +358,7 @@ Shot commentary bid functions
 includes both shot and meta shot commentary
 """
 bid_shot_counts = {'bid_shot_default':0, 'bid_shot_make':0, 'bid_shot_fastbreak':0}
-bid_shot_meta_counts = {'bid_shot_meta_default':0, 'bid_shot_first':0, 'bid_shot_longest':0}
+bid_shot_meta_counts = {'bid_shot_meta_default':0, 'bid_shot_first':0, 'bid_shot_longest':0, 'bid_shot_assist_pair':0}
     
 
 """
@@ -189,7 +371,9 @@ def bid_shot_make(play):
     if play['shot_made'] != 'makes':
         return (0, "", 'bid_shot_make')
     
-    if play['shot_distance'] and play['shot_distance'] >= 70:
+    if play['play_type'] == 'assist':
+        return (0.3, event_comment_from_list(comment_strings.make_assist_comments, play), 'bid_shot_make')
+    elif play['shot_distance'] and play['shot_distance'] >= 70:
         return (1, event_comment_from_list(comment_strings.make_long_comments, play), 'bid_shot_make')
     elif play['shot_distance'] and play['shot_distance'] >= 40:
         return (1, event_comment_from_list(comment_strings.make_very_long_comments, play), 'bid_shot_make')
@@ -276,6 +460,27 @@ def bid_shot_longest(play):
     else:
         return (0, "", 'bid_shot_longest')
 
+def bid_shot_assist_pair(play):
+    if play['play_type'] == 'assist':# and play['primary_player'] and play['secondary_player']:
+        cursor = conn.cursor()
+        cursor.execute("select primary_player, secondary_player, avg(assist_pair) as avg_assists, " + 
+                "count(game_id) as games_played from (" + 
+                "select primary_player, secondary_player, game_id, count(*) as assist_pair " + 
+                "from play_by_play where play_type = 'assist' and " + 
+                "secondary_player = '" + play['secondary_player'] + "' and " +
+                "primary_player = '" + play['primary_player'] + "' and " +
+                "id < " + str(play['pbp_id']) + " " +
+                "group by game_id, secondary_player, primary_player" +
+                ") group by primary_player, secondary_player " + 
+                "order by avg_assists desc")
+        avg_assists_game = cursor.fetchone()
+        if avg_assists_game and avg_assists_game['avg_assists'] >= 2 and avg_assists_game['games_played'] >= 5:
+            play['assist_avg'] = avg_assists_game['avg_assists']
+            play['num_games'] = avg_assists_game['games_played']
+            return (0.9, event_comment_from_list(comment_strings.assist_pair_avg_comments, play), 'bid_shot_assist_pair') 
+
+    return (0, "", 'bid_shot_assist_pair')
+
 
 def event_shot(play):
     global game_plays
@@ -288,7 +493,7 @@ def event_shot(play):
     output.append(max_bid[1])
     
     max_bid_meta = max([globals()[bid_function](play) for bid_function in bid_shot_meta_counts.keys()])
-    if max_bid_meta[0] > 0:
+    if max_bid_meta[0] > 0 and max_bid_meta[1]:
         bid_shot_meta_counts[max_bid_meta[2]] += 1
         output.append(max_bid_meta[1])
     
@@ -298,31 +503,99 @@ def event_shot(play):
 """
 Start of game commentary bid functions
 """
+bid_start_first_counts = {'bid_game_start_first_default':0}
+bid_start_body_counts = {'bid_game_start_record':0}
 
-def display_starting_lineup(game_id):
+def bid_game_start_first_default(game_info):
+    return (.25, event_comment_from_list(comment_strings.game_start_first_default_comments, game_info), 'bid_game_start_first_default')
+
+def display_starting_lineup():
+    global game_info
+    
     cursor = conn.cursor()
-    cursor.execute("select city, name, group_concat(first_name || ' ' || last_name, ', ') as starters "
-                   "from play_by_play join player on p_player_id = foxsports_id join team on play_by_play.team_id = team.id where game_id = " + str(game_id) + " and description = 'Starting Lineup' group by play_by_play.team_id;")
-    lineups = cursor.fetchall()
+    cursor.execute("select group_concat(first_name || ' ' || last_name, ', ') as starters "
+                   "from play_by_play join player "
+                   " on p_player_id = foxsports_id join team "
+                   " on play_by_play.team_id = team.id "
+                   "where game_id = " + str(game_info['game_id']) + " "
+                   "and description = 'Starting Lineup' "
+                   "and play_by_play.team_id = " + str(game_info['home_team_id']))
+    lineup = cursor.fetchone()
+    game_info['home_starters'] = lineup['starters']
     
-    comments = [
-        ("The starting lineup for the %s %s is %s.", ('city', 'name', 'starters')),
-        ("%s are starting tonight for the %s %s.", ('starters', 'city', 'name'))
-    ]
-    
+    cursor.execute("select group_concat(first_name || ' ' || last_name, ', ') as starters "
+                   "from play_by_play join player on p_player_id = foxsports_id join team on play_by_play.team_id = team.id where game_id = " + str(game_info['game_id']) + " and description = 'Starting Lineup' "
+                   "and play_by_play.team_id = " + str(game_info['home_team_id']))
+    lineup = cursor.fetchone()
+    game_info['away_starters'] = lineup['starters']
+
     output = []
-    for l in lineups:
-        i = random.randint(0, len(comments) - 1)
-        output.append(comments[i][0] % tuple(l[key] for key in comments[i][1]))
+    output.append(event_comment_from_list(comment_strings.game_start_lineup_home_comments, game_info))
+    output.append(event_comment_from_list(comment_strings.game_start_lineup_away_comments, game_info))
     
     return output
+
+def bid_game_start_record():
+    global game_info
+    
+    
+    cursor = conn.cursor()
+    cursor.execute("SELECT case when (home_team_score > away_team_score and team.id = home_team_id) or (away_team_score > home_team_score and team.id = away_team_id) then 'W' else 'L' end as WL from team, schedule "
+                   "where team.id = " + str(game_info['home_team_id']) + " "
+                   "and (home_team_id = team.id or away_team_id = team.id) "
+                   "and game_id < " + str(game_info['game_id']) + " "
+                   "order by game_id desc")
+    record_data = cursor.fetchall()
+    if not record_data:
+        return ""
+    
+    wins = 0
+    losses = 0
+    
+    for game in record_data:
+        if game['WL'] == 'W':
+            wins += 1
+        else:
+            losses += 1
+    game_info['home_wins'] = wins
+    game_info['home_losses'] = losses
+    
+    cursor.execute("SELECT case when (home_team_score > away_team_score and team.id = home_team_id) or (away_team_score > home_team_score and team.id = away_team_id) then 'W' else 'L' end as WL from team, schedule "
+                   "where team.id = " + str(game_info['away_team_id']) + " "
+                   "and (home_team_id = team.id or away_team_id = team.id) "
+                   "and game_id < " + str(game_info['game_id']) + " "
+                   "order by game_id desc")
+    record_data = cursor.fetchall()
+    if not record_data:
+        return ""
+    
+    wins = 0
+    losses = 0
+    
+    for game in record_data:
+        if game['WL'] == 'W':
+            wins += 1
+        else:
+            losses += 1
+    game_info['away_wins'] = wins
+    game_info['away_losses'] = losses
+        
+    output = []
+    output.append(event_comment_from_list(comment_strings.game_start_record_comments, game_info))
+    return output
+        
 
 def event_game_start():
     global DEBUG, game_info, game_plays
     
     output = []
-    output.append("The " + game_info['away_team'] + " are playing the " + game_info['home_team'] + ".")
-    output.extend(display_starting_lineup(game_info['game_id']))
+    max_bid_first = max([globals()[bid_function](game_info) for bid_function in bid_start_first_counts.keys()])
+    bid_start_first_counts[max_bid_first[2]] += 1
+    output.append(max_bid_first[1])
+    
+    output.extend(bid_game_start_record())
+    
+    output.extend(display_starting_lineup())
 
     return output
 
@@ -360,7 +633,7 @@ def event_comment_from_list(comments, play):
 
 # all comments are pushed through here to have a central output interface
 def parse_comment(output_comments, game_time):
-    time_string = "Q" + str(game_time[0]) + " " + str(game_time[1]) + ':' + str(game_time[2])
+    time_string = "Q" + str(game_time[0]) + " " + str(game_time[1]) + ':%02d' % (game_time[2],)
     
     if output_comments:
         print(time_string)
@@ -374,7 +647,7 @@ def get_game_info(game_id):
     
     
     cursor = conn.cursor();
-    cursor.execute("SELECT season, game_date, t1.name as home_team, t2.name as away_team, game_type, home_score, away_score, game_code, stadium "
+    cursor.execute("SELECT season, game_date, t1.name as home_team, t1.city as home_city, t2.name as away_team, t2.city as away_city, game_type, home_score, away_score, game_code, stadium, home_team as home_team_id, away_team as away_team_id "
                    "FROM game JOIN team as t1 "
                    " ON home_team = t1.id JOIN team as t2 "
                    " ON away_team = t2.id "
@@ -458,6 +731,12 @@ def main():
             parse_comment(event_steal(play), game_time)
         elif play['play_type'] == "substitution":
             parse_comment(event_substitution(play), game_time)
+        elif play['play_type'] == "timeout":
+            parse_comment(event_timeout(play), game_time)
+        elif play['play_type'] == "jump ball":
+            parse_comment(event_jumpball(play), game_time)
+        elif play['play_type'] == "free throw":
+            parse_comment(event_free_throw(play), game_time)
         elif DEBUG:
             print("UNPARSED PLAY_TYPE:", play['play_type'])
     
@@ -472,3 +751,7 @@ if __name__ == '__main__':
 
 
 
+"""
+-- player stats
+select game_id, sum(case when event_description = 'Field Goal Made' then 1 else 0 end) as made, sum(case when event_description = 'Field Goal Missed' then 1 else 0 end) as missed, sum(case when event_description in ('Field Goal Made', 'Free Throw Made') then points_worth else 0 end) as points, primary_player from play_by_play where game_id = 1 and p_player_id = '399612';
+"""
