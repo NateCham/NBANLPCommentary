@@ -1,3 +1,8 @@
+
+-- player stats
+select game_id, sum(case when event_description = 'Field Goal Made' then 1 else 0 end) as made, sum(case when event_description = 'Field Goal Missed' then 1 else 0 end) as missed, sum(case when event_description in ('Field Goal Made', 'Free Throw Made') then points_worth else 0 end) as points, primary_player from play_by_play where game_id = 1 and p_player_id = '399612';
+
+
 -- Basic points stats per game for player
 select 
   game.id, 
