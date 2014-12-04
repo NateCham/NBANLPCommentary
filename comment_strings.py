@@ -116,7 +116,7 @@ foul_q1_comments = [
 ]
 
 foul_q3_comments = [
-    ("%s fourth foul puts him in foul trouble with over still over a quarter remaining.", ['primary_player'])
+    ("%s fourth foul puts him in foul trouble with still over a quarter remaining.", ['primary_player'])
 ]
 
 foul_q4_comments = [
@@ -136,6 +136,14 @@ rebound_default_comments = [
     ("%s rebounds the ball.", ['primary_player'])
 ]
 
+"""
+Start of game commentary
+"""
+game_start_lineup_comments = [
+    ("The starting lineup for the %s %s is %s.", ('city', 'name', 'starters')),
+    ("%s are starting tonight for the %s %s.", ('starters', 'city', 'name'))
+]
+    
 
 """
 End of game commentary
