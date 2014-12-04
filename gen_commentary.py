@@ -17,25 +17,147 @@ conn = sqlite3.connect('foxsports.db')
 conn.row_factory = dict_factory
 
 
-def event_comment_from_list(comments, play):
-    i = random.randint(0, len(comments) - 1)
-    return comments[i][0] % tuple(play[key] for key in comments[i][1])
+"""
+Game local variabls
+"""
+# Ejection / Foul out dictionary
+# Key = player name (or possibly id?)
+# Value = ejection|foul out|other?
+ejections = {}
+
+
+"""
+Substitution commentary bid functions
+"""
+bid_substitution_counts = {'bid_substitution_default':0}
+bid_substitution_meta_counts = {'bid_substitution_meta_default':0}
+
+def bid_substitution_default(play):
+    return (0.25, event_comment_from_list(comment_strings.substitution_default_comments, play), 'bid_substitution_default')
+
+def bid_substitution_meta_default(play):
+    return (0, "", 'bid_substitution_meta_default')
+
+def event_substitution(play):
+    output = []
+    #print(play)
+    max_bid = max([globals()[bid_function](play) for bid_function in bid_substitution_counts.keys()])
+    bid_substitution_counts[max_bid[2]] += 1
+    output.append(max_bid[1])
+    
+    max_bid_meta = max([globals()[bid_function](play) for bid_function in bid_substitution_meta_counts.keys()])
+    if max_bid_meta[0] > 0:
+        bid_substitution_meta_counts[max_bid_meta[2]] += 1
+        output.append(max_bid_meta[1])
+    
+    return output
+
+
+"""
+Steal commentary bid functions
+"""
+bid_steal_counts = {'bid_steal_default':0}
+bid_steal_meta_counts = {'bid_steal_meta_default':0}
+
+def bid_steal_default(play):
+    return (0.25, event_comment_from_list(comment_strings.steal_default_comments, play), 'bid_steal_default')
+
+def bid_steal_meta_default(play):
+    return (0, "", 'bid_steal_meta_default')
+
+def event_steal(play):
+    output = []
+    
+    max_bid = max([globals()[bid_function](play) for bid_function in bid_steal_counts.keys()])
+    bid_steal_counts[max_bid[2]] += 1
+    output.append(max_bid[1])
+    
+    max_bid_meta = max([globals()[bid_function](play) for bid_function in bid_steal_meta_counts.keys()])
+    if max_bid_meta[0] > 0:
+        bid_steal_meta_counts[max_bid_meta[2]] += 1
+        output.append(max_bid_meta[1])
+    
+    return output
+
+
+"""
+Rebound commentary bid functions
+"""
+bid_rebound_counts = {'bid_rebound_default':0}
+bid_rebound_meta_counts = {'bid_rebound_meta_default':0}
+
+def bid_rebound_default(play):
+    return (0.25, event_comment_from_list(comment_strings.rebound_default_comments, play), 'bid_rebound_default')
+
+def bid_rebound_meta_default(play):
+    return (0, "", 'bid_rebound_meta_default')
+
+def event_rebound(play):
+    output = []
+    
+    max_bid = max([globals()[bid_function](play) for bid_function in bid_rebound_counts.keys()])
+    bid_rebound_counts[max_bid[2]] += 1
+    output.append(max_bid[1])
+    
+    max_bid_meta = max([globals()[bid_function](play) for bid_function in bid_rebound_meta_counts.keys()])
+    if max_bid_meta[0] > 0:
+        bid_rebound_meta_counts[max_bid_meta[2]] += 1
+        output.append(max_bid_meta[1])
+    
+    return output
     
 
 """
 Foul commentary bid functions
 """
-bid_foul_counts = {'bid_foul_default':0}
+bid_foul_counts = {'bid_foul_default':0, 'bid_foul_trouble':0}
 bid_foul_meta_counts = {'bid_foul_meta_default':0}
 
+def bid_foul_trouble(play):
+    if 'player_foul_count' not in play:
+        return (0, "", 'bid_foul_trouble')
+    
+    if play['player_foul_count'] == 6:
+        return (1, event_comment_from_list(comment_strings.foul_out_comments, play), 'bid_foul_trouble')
+    elif play['quarter'] == 1 and play['player_foul_count'] == 2:
+        return (1, event_comment_from_list(comment_strings.foul_q1_comments, play), 'bid_foul_trouble')
+    elif play['quarter'] == 3 and play['player_foul_count'] == 4:
+        return (1, event_comment_from_list(comment_strings.foul_q3_comments, play), 'bid_foul_trouble')
+    elif play['quarter'] == 4 and play['player_foul_count'] == 5:
+        return (1, event_comment_from_list(comment_strings.foul_q4_comments, play), 'bid_foul_trouble')
+    else:
+        return (0, "", 'bid_foul_trouble')
+
 def bid_foul_default(play):
+    if 'player_foul_count' not in play:
+        return (0.25, event_comment_from_list(comment_strings.foul_default_non_comments, play), 'bid_foul_default')
     return (0.25, event_comment_from_list(comment_strings.foul_default_comments, play), 'bid_foul_default')
+
+def bid_foul_out_contribution(play):
+    pass
 
 def bid_foul_meta_default(play):
     return (0, "", 'bid_foul_meta_default')
 
 def event_foul(play):
     output = []
+    
+    if play['p_player_id']:
+        cursor = conn.cursor();
+        cursor.execute("select count(*) as foul_count "
+                       "from play_by_play "
+                       "where event_description = 'Foul' "
+                       " and (detail_description like 'Personal%' or detail_description like 'Shooting%' or detail_description like 'Offensive%' or detail_description like 'Loose Ball') "
+                       " and game_id = " + str(play['game_id']) + " "
+                       " and id <= " + str(play['pbp_id']) + " "
+                       " and p_player_id = " + str(play['p_player_id']) + " "
+                       "group by p_player_id")
+        
+        foul_count = cursor.fetchone()
+        if foul_count:
+            play['player_foul_count'] = foul_count['foul_count']
+    else:
+        play['player_foul_count'] = 0
     
     max_bid = max([globals()[bid_function](play) for bid_function in bid_foul_counts.keys()])
     bid_foul_counts[max_bid[2]] += 1
@@ -55,7 +177,13 @@ includes both shot and meta shot commentary
 """
 bid_shot_counts = {'bid_shot_default':0, 'bid_shot_make':0, 'bid_shot_fastbreak':0}
 bid_shot_meta_counts = {'bid_shot_meta_default':0, 'bid_shot_first':0, 'bid_shot_longest':0}
+    
 
+"""
+Normal shot bids
+""" 
+def bid_shot_default(play):
+    return (0.25, play['description'], 'bid_shot_default')
 
 def bid_shot_make(play):
     if play['shot_made'] != 'makes':
@@ -103,6 +231,12 @@ def bid_shot_fastbreak(play):
         return (0, "", 'bid_shot_fastbreak')
 
 
+"""
+Meta shot bids
+"""
+def bid_shot_meta_default(play):
+    return (0, "", 'bid_shot_meta_default')
+
 def bid_shot_first(play):
     if play['quarter'] == 1:
         cursor = conn.cursor()
@@ -141,12 +275,7 @@ def bid_shot_longest(play):
         return (1, event_comment_from_list(comment_strings.shot_longest_player_comments, play), 'bid_shot_longest')
     else:
         return (0, "", 'bid_shot_longest')
-    
-def bid_shot_default(play):
-    return (0.25, play['description'], 'bid_shot_default')
 
-def bid_shot_meta_default(play):
-    return (0, "", 'bid_shot_meta_default')
 
 def event_shot(play):
     global game_plays
@@ -224,10 +353,14 @@ def event_game_end():
 Other functions
 """
 
+def event_comment_from_list(comments, play):
+    i = random.randint(0, len(comments) - 1)
+    return comments[i][0] % tuple(play[key] for key in comments[i][1])
+    
 
 # all comments are pushed through here to have a central output interface
 def parse_comment(output_comments, game_time):
-    time_string = str(game_time[0]) + " " + str(game_time[1]) + ':' + str(game_time[2])
+    time_string = "Q" + str(game_time[0]) + " " + str(game_time[1]) + ':' + str(game_time[2])
     
     if output_comments:
         print(time_string)
@@ -317,8 +450,14 @@ def main():
         
         if play['play_type'] in ['shot', 'assist', 'blocks']:
             parse_comment(event_shot(play), game_time)
-        elif play['play_type'] == "foul":
+        elif play['event_description'] == "Foul":
             parse_comment(event_foul(play), game_time)
+        elif play['play_type'] == "rebound":
+            parse_comment(event_rebound(play), game_time)
+        elif play['play_type'] == "steal":
+            parse_comment(event_steal(play), game_time)
+        elif play['play_type'] == "substitution":
+            parse_comment(event_substitution(play), game_time)
         elif DEBUG:
             print("UNPARSED PLAY_TYPE:", play['play_type'])
     

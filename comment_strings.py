@@ -28,7 +28,7 @@ make_comments = [
 
 make_long_comments = [
     ("The long shot by %s is good!", ['primary_player']),
-    ("%s with the %s-footer!", ['primary_player'])
+    ("%s with the %s-footer!", ['primary_player', 'shot_distance'])
 ]
 
 make_very_long_comments = [
@@ -82,10 +82,58 @@ shot_longest_player_comments = [
 
 
 """
+Substitution commentary
+"""
+substitution_default_comments = [
+    ("%s goes in for %s.", ['primary_player', 'secondary_player']),
+    ("%s is coming out for %s.", ['secondary_player', 'primary_player']),
+    ("%s for the %s is coming out for %s.", ['secondary_player', 'name', 'primary_player']),
+    ("The %s sub in %s for %s.", ['name', 'primary_player', 'secondary_player'])
+]
+
+"""
+Steal commentary
+"""
+steal_default_comments = [
+    ("%s with the steal.", ['primary_player']),
+    ("%s steals the ball from %s.", ['primary_player', 'secondary_player']),
+    ("%s with the pick.", ['primary_player'])
+]
+
+"""
 Foul commentary
 """
 foul_default_comments = [
     ("%s with the foul.", ['primary_player'])
+]
+
+foul_default_non_comments = [
+    ("%s with the foul.", ['primary_player'])
+]
+
+foul_q1_comments = [
+    ("He's got two fouls in the first quarter, probably should bench him soon.", [])
+]
+
+foul_q3_comments = [
+    ("%s fourth foul puts him in foul trouble with over still over a quarter remaining.", ['primary_player'])
+]
+
+foul_q4_comments = [
+    ("%s has to watch out, one more slip up and he fouls out.", ['primary_player'])
+]
+
+foul_out_comments = [
+    ("And he's gone. That's %s's last foul to give.", ['primary_player'])
+]
+
+"""
+Rebound commentary
+"""
+rebound_default_comments = [
+    ("%s with the rebound.", ['primary_player']),
+    ("%s with the %s rebound.", ['primary_player', 'rebound_type']),
+    ("%s rebounds the ball.", ['primary_player'])
 ]
 
 
