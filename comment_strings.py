@@ -1,16 +1,39 @@
 
+"""
+Start of game commentary
+"""
+game_start_lineup_comments = [
+    ("The starting lineup for the %s %s is %s.", ('city', 'name', 'starters')),
+    ("%s are starting tonight for the %s %s.", ('starters', 'city', 'name'))
+]
+
+
+"""
+Shot commentary
+"""
 
 shot_first_comments = [
     ("That was %s with the first shot attempt of the game.", ['primary_player'])
 ]
 
 shot_first_made_comments = [
-    ("That was %s with the first basket of the game.", ['primary_player'])
+    ("That %s marks the first basket of the game.", ['shot_type']),
+    ("And there's the first basket of the game.", [])
 ]
 
 make_comments = [
     ("%s's %s shot is good.", ['primary_player', 'shot_type']),
     ("%s makes the basket.", ['primary_player'])
+]
+
+make_long_comments = [
+    ("The long shot by %s is good!", ['primary_player']),
+    ("%s with the %s-footer!", ['primary_player'])
+]
+
+make_very_long_comments = [
+    ("Are you kidding me?? %s's %s-footer hits for the very long 3-pointer.", ['primary_player', 'shot_distance']),
+    ("%s makes the %s-foot shot! wow!", ['primary_player', 'shot_distance'])
 ]
 
 miss_comments = [
@@ -56,6 +79,19 @@ shot_longest_comments = [
 shot_longest_player_comments = [
     ("Wow! At %s feet, that's %s's longest shot of this season.", ['shot_distance', 'primary_player'])
 ]
+
+
+"""
+Foul commentary
+"""
+foul_default_comments = [
+    ("%s with the foul.", ['primary_player'])
+]
+
+
+"""
+End of game commentary
+"""
 
 game_end_first_default_comments = [
     ("The %s end the game with a %s to %s victory over the %s.", ['winner_team_name', 'winner_score', 'loser_score', 'loser_team_name'])

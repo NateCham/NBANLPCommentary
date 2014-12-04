@@ -22,6 +22,32 @@ def event_comment_from_list(comments, play):
     return comments[i][0] % tuple(play[key] for key in comments[i][1])
     
 
+"""
+Foul commentary bid functions
+"""
+bid_foul_counts = {'bid_foul_default':0}
+bid_foul_meta_counts = {'bid_foul_meta_default':0}
+
+def bid_foul_default(play):
+    return (0.25, event_comment_from_list(comment_strings.foul_default_comments, play), 'bid_foul_default')
+
+def bid_foul_meta_default(play):
+    return (0, "", 'bid_foul_meta_default')
+
+def event_foul(play):
+    output = []
+    
+    max_bid = max([globals()[bid_function](play) for bid_function in bid_foul_counts.keys()])
+    bid_foul_counts[max_bid[2]] += 1
+    output.append(max_bid[1])
+    
+    max_bid_meta = max([globals()[bid_function](play) for bid_function in bid_foul_meta_counts.keys()])
+    if max_bid_meta[0] > 0:
+        bid_foul_meta_counts[max_bid_meta[2]] += 1
+        output.append(max_bid_meta[1])
+    
+    return output
+    
 
 """
 Shot commentary bid functions
@@ -35,6 +61,10 @@ def bid_shot_make(play):
     if play['shot_made'] != 'makes':
         return (0, "", 'bid_shot_make')
     
+    if play['shot_distance'] and play['shot_distance'] >= 70:
+        return (1, event_comment_from_list(comment_strings.make_long_comments, play), 'bid_shot_make')
+    elif play['shot_distance'] and play['shot_distance'] >= 40:
+        return (1, event_comment_from_list(comment_strings.make_very_long_comments, play), 'bid_shot_make')
     return (0.3, event_comment_from_list(comment_strings.make_comments, play), 'bid_shot_make')
 
 
@@ -287,6 +317,8 @@ def main():
         
         if play['play_type'] in ['shot', 'assist', 'blocks']:
             parse_comment(event_shot(play), game_time)
+        elif play['play_type'] == "foul":
+            parse_comment(event_foul(play), game_time)
         elif DEBUG:
             print("UNPARSED PLAY_TYPE:", play['play_type'])
     
