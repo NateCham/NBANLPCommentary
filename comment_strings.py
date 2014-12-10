@@ -74,6 +74,14 @@ miss_comments = [
     ("A missed shot from %s.", ['primary_player'])
 ]
 
+miss_nameless_comments = [
+    ("The %s misses the shot attempt.", ['name']),
+    ("The %s miss a shot.", ['name']),
+    ("The %s with the missed shot.", ['name']),
+    ("A missed attempt from the %s.", ['name']),
+    ("A missed shot from the %s.", ['name'])
+]
+
 block_comments = [
     ("The shot is blocked.", []),
     ("%s swats it away!", ['secondary_player']),
@@ -134,7 +142,9 @@ substitution_on_bench_comments = [
 ]
 
 substitution_bench_points_comments = [
-    ("The %s bench has been doing great tonight, scoring %s of the team's %s points", ['name', 'bench_points', 'team_points'])
+    ("The %s bench has been doing great tonight, scoring %s of the team's %s points", ['name', 'bench_points', 'team_points']),
+    ("The bench for the %s have been making a big impact this game. They've put in a total of %s points out of the team's %s.", ['name', 'bench_points', 'team_points']),
+    ("Scoring %s of the team's %s, the %s bench are having a great showing tonight.", ['bench_points', 'team_points', 'name'])
 ]
 
 """
@@ -152,7 +162,8 @@ Frethrow commentary
 """
 
 free_throw_start_default_comments = [
-        ("%s is %s of %s from the line tonight. He's shooting free throws now.", ['primary_player', 'free_throws_made', 'tot_free_throws'])
+    ("%s is %s of %s from the line tonight. He's shooting free throws now.", ['primary_player', 'free_throws_made', 'tot_free_throws']),
+    ("%s is %s for %s in free throws tonight. He's shooting at the line now.", ['primary_player', 'free_throws_made', 'tot_free_throws'])
 ]
 
 free_throw_default_comments = [
@@ -163,23 +174,29 @@ free_throw_default_comments = [
 Foul commentary
 """
 foul_default_comments = [
-    ("%s with the foul.", ['primary_player'])
+    ("%s with the foul.", ['primary_player']),
+    ("Foul called on %s.", ['primary_player']),
+    ("There's a foul called on %s.", ['primary_player'])
 ]
 
 foul_default_non_comments = [
-    ("%s with the foul.", ['primary_player'])
+    ("%s with the foul.", ['primary_player']),
+    ("Foul called on %s.", ['primary_player']),
+    ("There's a foul called on %s.", ['primary_player'])
 ]
 
 foul_q1_comments = [
-    ("He's got two fouls in the first quarter, probably should bench him soon.", [])
+    ("He's got two fouls in the first quarter, probably should bench him soon.", []),
+    ("Those two fouls in the first quarter could put him in early foul trouble.", []),
+    ("He's got to watch his fouls now, with two fouls already in the first quarter.", [])
 ]
 
 foul_q3_comments = [
-    ("%s fourth foul puts him in foul trouble with still over a quarter remaining.", ['primary_player'])
+    ("%s's fourth foul puts him in foul trouble with still over a quarter remaining.", ['primary_player'])
 ]
 
 foul_q4_comments = [
-    ("%s has to watch out, one more slip up and he fouls out.", ['primary_player'])
+    ("%s's has to watch out, one more slip up and he fouls out.", ['primary_player'])
 ]
 
 foul_out_comments = [
@@ -220,7 +237,8 @@ timeout_team_losing_streak_comments = [
 ]
 
 timeout_team_winning_streak_comments = [
-    ("The %s have been on a great streak lately, winning %s of %s!", ['team_name', 'num_won', 'num_past_games'])
+    ("The %s have been on a great streak lately, winning %s of %s!", ['team_name', 'num_won', 'num_past_games']),
+    ("The %s have been playing great these last few games. They've won %s of their last %s games.", ['team_name', 'num_won', 'num_past_games'])
 ]
 
 

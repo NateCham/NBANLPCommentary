@@ -204,10 +204,11 @@ def bid_substitution_bench_points(play):
         return (0, "", 'bid_substitution_bench_points')
     
     cursor = conn.cursor()
-    cursor.execute("select sum(case when event_description in ('Field Goal Made', 'Free Throw Made') and p_player_id not in (select p_player_id from play_by_play where description = 'Starting Lineup' and game_id = 1) then points_worth else 0 end) as bench_points "
+    cursor.execute("select sum(case when event_description in ('Field Goal Made', 'Free Throw Made') and p_player_id not in (select p_player_id from play_by_play where description = 'Starting Lineup' and game_id = " + str(play['game_id']) + ") then points_worth else 0 end) as bench_points "
                    "from play_by_play "
                    "where game_id = " + str(play['game_id']) + " "
-                   " and team_id = " + str(play['t_id']))
+                   " and team_id = " + str(play['t_id']) + " "
+                   " and id < " + str(play['pbp_id']))
     bench_data = cursor.fetchone()
     
     team_points = (play['home_score'] if play['t_id'] == game_info['home_team_id'] else play['away_score'])
@@ -292,8 +293,8 @@ def event_rebound(play):
 """
 Foul commentary bid functions
 """
-bid_foul_counts = {'bid_foul_default':0, 'bid_foul_trouble':0}
-bid_foul_meta_counts = {'bid_foul_meta_default':0}
+bid_foul_counts = {'bid_foul_default':0}
+bid_foul_meta_counts = {'bid_foul_meta_default':0, 'bid_foul_trouble':0}
 
 def bid_foul_trouble(play):
     if 'player_foul_count' not in play:
@@ -380,8 +381,11 @@ def bid_shot_make(play):
     return (0.3, event_comment_from_list(comment_strings.make_comments, play), 'bid_shot_make')
 
 def bid_shot_miss(play):
-    if play['shot_made'] == 'makes':
+    if play['event_description'] != 'Field Goal Missed':
         return (0, "", 'bid_shot_miss')
+    
+    if not play['primary_player']:
+        return (0.6, event_comment_from_list(comment_strings.miss_nameless_comments, play), 'bid_shot_miss')
     
     return (0.6, event_comment_from_list(comment_strings.miss_comments, play), 'bid_shot_miss')
 
