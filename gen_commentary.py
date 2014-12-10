@@ -357,7 +357,7 @@ def event_foul(play):
 Shot commentary bid functions
 includes both shot and meta shot commentary
 """
-bid_shot_counts = {'bid_shot_default':0, 'bid_shot_make':0, 'bid_shot_fastbreak':0}
+bid_shot_counts = {'bid_shot_default':0, 'bid_shot_make':0, 'bid_shot_fastbreak':0, 'bid_shot_miss':0}
 bid_shot_meta_counts = {'bid_shot_meta_default':0, 'bid_shot_first':0, 'bid_shot_longest':0, 'bid_shot_assist_pair':0}
     
 
@@ -379,6 +379,11 @@ def bid_shot_make(play):
         return (1, event_comment_from_list(comment_strings.make_very_long_comments, play), 'bid_shot_make')
     return (0.3, event_comment_from_list(comment_strings.make_comments, play), 'bid_shot_make')
 
+def bid_shot_miss(play):
+    if play['shot_made'] == 'makes':
+        return (0, "", 'bid_shot_miss')
+    
+    return (0.6, event_comment_from_list(comment_strings.miss_comments, play), 'bid_shot_miss')
 
 def bid_shot_fastbreak(play):
     if play['play_index'] - 1 <= 0 or play['shot_made'] != 'makes':
@@ -467,8 +472,8 @@ def bid_shot_assist_pair(play):
                 "count(game_id) as games_played from (" + 
                 "select primary_player, secondary_player, game_id, count(*) as assist_pair " + 
                 "from play_by_play where play_type = 'assist' and " + 
-                "secondary_player = '" + play['secondary_player'] + "' and " +
-                "primary_player = '" + play['primary_player'] + "' and " +
+                "secondary_player = " + '"' + play['secondary_player'] + '"' + " and " +
+                "primary_player = " + '"' + play['primary_player'] + '"' + " and " +
                 "id < " + str(play['pbp_id']) + " " +
                 "group by game_id, secondary_player, primary_player" +
                 ") group by primary_player, secondary_player " + 
@@ -525,7 +530,7 @@ def display_starting_lineup():
     
     cursor.execute("select group_concat(first_name || ' ' || last_name, ', ') as starters "
                    "from play_by_play join player on p_player_id = foxsports_id join team on play_by_play.team_id = team.id where game_id = " + str(game_info['game_id']) + " and description = 'Starting Lineup' "
-                   "and play_by_play.team_id = " + str(game_info['home_team_id']))
+                   "and play_by_play.team_id = " + str(game_info['away_team_id']))
     lineup = cursor.fetchone()
     game_info['away_starters'] = lineup['starters']
 
@@ -633,7 +638,10 @@ def event_comment_from_list(comments, play):
 
 # all comments are pushed through here to have a central output interface
 def parse_comment(output_comments, game_time):
+    global game_info
+    
     time_string = "Q" + str(game_time[0]) + " " + str(game_time[1]) + ':%02d' % (game_time[2],)
+    time_string +=  " " + str(game_info['home_team']) + " " + str(game_time[3]) + "-" + str(game_time[4]) + " " + str(game_info['away_team'])
     
     if output_comments:
         print(time_string)
@@ -714,12 +722,14 @@ def main():
     Start game commentary loop
     """
     # Game start commentary
-    parse_comment(event_game_start(), (1,12,0))
+    parse_comment(event_game_start(), (1,12,0, 0,0))
     
     # Main game loop
     for play_index, play in enumerate(game_plays):
         play['play_index'] = play_index
-        game_time = (play['quarter'], play['minutes'], play['seconds'])
+        if play['points_worth']:
+            play['points_worth_str'] = "one" if play['points_worth'] == 1 else "two" if play['points_worth'] == 2 else "three"
+        game_time = (play['quarter'], play['minutes'], play['seconds'], play['home_score'], play['away_score'])
         
         if play['play_type'] in ['shot', 'assist', 'blocks']:
             parse_comment(event_shot(play), game_time)
@@ -741,7 +751,7 @@ def main():
             print("UNPARSED PLAY_TYPE:", play['play_type'])
     
     # End game commentary
-    parse_comment(event_game_end(), (4,0,0))
+    parse_comment(event_game_end(), (4,0,0, game_time[3], game_time[4]))
 
 
 if __name__ == '__main__':

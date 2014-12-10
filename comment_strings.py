@@ -10,7 +10,8 @@ game_start_lineup_comments = [
 
 
 assist_pair_avg_comments = [
-    ("These two have been playing great together for %s games this season. They've linked up for an assist an average %0.1f times per game.", ['num_games', 'assist_avg'])        
+    ("These two have been playing great together for %s games this season. They've linked up for an assist an average %0.1f times per game.", ['num_games', 'assist_avg']),
+    ("These guys consistently make a good pair. %s games this season they've averaged %0.1f assists with each other per game.", ['num_games', 'assist_avg'])
 ]
 
 """
@@ -18,43 +19,65 @@ Shot commentary
 """
 
 shot_first_comments = [
-    ("That was %s with the first shot attempt of the game.", ['primary_player'])
+    ("That was %s with the first shot attempt of the game.", ['primary_player']),
+    ("And there's the first shot attempt of the game.", []),
+    ("That was the first shot of the game.", [])
 ]
 
 shot_first_made_comments = [
     ("That %s shot marks the first basket of the game.", ['shot_type']),
-    ("And there's the first basket of the game.", [])
+    ("And there's the first basket of the game.", []),
+    ("So the %s get the first points on the board.", ['name']),
+    ("And the %s start the game up %s.", ['name', 'points_worth_str'])
 ]
 
 make_comments = [
     ("%s's %s shot is good.", ['primary_player', 'shot_type']),
-    ("%s makes the basket.", ['primary_player'])
+    ("%s makes the basket.", ['primary_player']),
+    ("%s puts %s points on the board for the %s with a %s shot.", ['primary_player', 'points_worth_str', 'name', 'shot_type']),
+    ("%s makes the %s shot for %s.", ['primary_player', 'shot_type', 'points_worth_str']),
+    ("The %s-foot %s shot from %s is good.", ['shot_distance', 'shot_type', 'primary_player']),
+    ("%s puts it in for %s.", ['primary_player', 'points_worth_str']),
+    ("%s with the %s-foot %s pointer.", ['primary_player', 'shot_distance', 'points_worth_str']),
+    ("%s gives the %s %s with that made %s shot.", ['primary_player', 'name', 'points_worth_str', 'shot_type'])
 ]
 
 make_assist_comments = [
-    ("After the assist from %s, %s's %s shot is good.", ['secondary_player', 'primary_player', 'shot_type']),
+    ("After the assist from %s, %s's %s is good.", ['secondary_player', 'primary_player', 'shot_type']),
     ("%s makes the basket. %s with the assist.", ['primary_player', 'secondary_player']),
-    ("%s passes it off to %s, who finishes it with a %s shot", ['secondary_player', 'primary_player', 'shot_type']),
+    ("%s passes it off to %s, who finishes it with a %s.", ['secondary_player', 'primary_player', 'shot_type']),
+    ("%s puts %s points on the board for the %s with a %s. %s with the assist.", ['primary_player', 'points_worth_str', 'name', 'shot_type', 'secondary_player']),
+    ("%s passes the ball to %s, who puts %s points on the board for the %s with a %s.", ['secondary_player', 'primary_player', 'points_worth_str', 'name', 'shot_type']),
+    ("After the pass from %s, the %s-foot %s from %s is good.", ['secondary_player', 'shot_distance', 'shot_type', 'primary_player']),
+    ("%s puts it up for %s. %s with the assist.", ['primary_player', 'points_worth_str', 'secondary_player'])
 ]
 
 make_long_comments = [
     ("The long shot by %s is good!", ['primary_player']),
-    ("%s with the %s-footer!", ['primary_player', 'shot_distance'])
+    ("%s with the %s-footer!", ['primary_player', 'shot_distance']),
+    ("%s hits a long %s-footer.", ['primary_player', 'shot_distance']),
+    ("The long %s-foot shot by %s is in!", ['shot_distance', 'primary_player']),
+    ("%s hits the 3 from way outside!", ['primary_player']),
 ]
 
 make_very_long_comments = [
     ("Are you kidding me?? %s's %s-footer hits for the very long 3-pointer.", ['primary_player', 'shot_distance']),
-    ("%s makes the %s-foot shot! wow!", ['primary_player', 'shot_distance'])
+    ("%s makes the %s-foot shot! What!", ['primary_player', 'shot_distance']),
+    ("%s drains the %s-footer!!! That was a very long distance shot.", ['primary_player', 'shot_distance'])
 ]
 
 miss_comments = [
-    ("%s misses the bottom of the net.", ['primary_player']),
-    ("%s misses a shot.", ['primary_player'])
+    ("%s misses the shot attempt.", ['primary_player']),
+    ("%s misses a shot.", ['primary_player']),
+    ("%s with the missed shot.", ['primary_player']),
+    ("A missed attempt from %s.", ['primary_player']),
+    ("A missed shot from %s.", ['primary_player'])
 ]
 
 block_comments = [
     ("The shot is blocked.", []),
-    ("%s swats it away!", ['secondary_player'])
+    ("%s swats it away!", ['secondary_player']),
+    ("%s's shot is blocked by %s.", ['primary_player', 'secondary_player'])
 ]
 
 assist_comments = [
@@ -205,25 +228,29 @@ timeout_team_winning_streak_comments = [
 Start of game commentary
 """
 game_start_first_default_comments = [
-    ("The %s will be playing the %s here in %s.", ['away_team', 'home_team', 'home_city'])
+    ("The %s will be playing the %s here in %s.", ['away_team', 'home_team', 'home_city']),
+    ("The matchup tonight is the %s %s playing at home against the %s %s.", ['home_city', 'home_team', 'away_city', 'away_team']),
+    ("Tonights matchup we have the home team, the %s %s, playing the %s %s.", ['home_city', 'home_team', 'away_city', 'away_team']),
 ]
 
 game_start_lineup_home_comments = [
     ("The starting lineup for the %s %s is %s.", ('home_city', 'home_team', 'home_starters')),
     ("%s are starting tonight for the %s %s.", ('home_starters', 'home_city', 'home_team')),
     ("The %s %s are starting %s.", ('home_city', 'home_team', 'home_starters')),
-    ("The %s %s starting lineup for tonights game is %s.", ('home_city', 'home_team', 'home_starters'))
+    ("The %s %s starting lineup for tonights game is %s.", ('home_city', 'home_team', 'home_starters')),
+    ("The starters for the %s %s are %s.", ('home_city', 'home_team', 'home_starters'))
 ]
 
 game_start_lineup_away_comments = [
     ("The starting lineup for the %s %s is %s.", ('away_city', 'away_team', 'away_starters')),
     ("%s are starting tonight for the %s %s.", ('away_starters', 'away_city', 'away_team')),
     ("The %s %s are starting %s.", ('away_city', 'away_team', 'away_starters')),
-    ("The %s %s starting lineup for tonights game is %s.", ('away_city', 'away_team', 'away_starters'))
+    ("The %s %s starting lineup for tonights game is %s.", ('away_city', 'away_team', 'away_starters')),
+    ("The starters for the %s %s are %s.", ('away_city', 'away_team', 'away_starters'))
 ]
     
 game_start_record_comments = [
-    ("The %s are currently with a %s-%s record, while the %s stand with a %s-%s record", ('home_team', 'home_wins', 'away_losses', 'away_team', 'away_wins', 'away_losses')),
+    ("The %s are currently with a %s-%s record, while the %s stand with a %s-%s record", ('home_team', 'home_wins', 'home_losses', 'away_team', 'away_wins', 'away_losses')),
 ]
 
 
