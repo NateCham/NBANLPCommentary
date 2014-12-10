@@ -1,0 +1,394 @@
+1ST QTR
+TIME	SCORE	TEAM	PLAY
+12:00	 	NY	Jumpball received by Pablo Prigioni
+11:40	0-0	NY	Cole Aldrich missed Hook Shot
+11:35	 	TOR	Defensive Rebound by Amir Johnson
+11:19	2-0	TOR	Jonas Valanciunas made Mini Hook Shot
+11:03	 	TOR	Shooting foul on Amir Johnson
+11:03	2-1	NY	J.R. Smith made 1st of 2 Free Throws
+11:03	2-1	NY	J.R. Smith missed 2nd of 2 Free Throws
+11:03	 	TOR	Defensive Rebound by Jonas Valanciunas
+10:41	5-1	TOR	Kyle Lowry made 3-pt. Jump Shot, Assist DeMar DeRozan
+10:30	5-1	NY	Iman Shumpert missed Jump Shot
+10:27	 	NY	Offensive Rebound by Amar'e Stoudemire
+10:25	 	TOR	Shooting foul on Jonas Valanciunas
+10:25	5-2	NY	Amar'e Stoudemire made 1st of 2 Free Throws
+10:25	5-3	NY	Amar'e Stoudemire made 2nd of 2 Free Throws
+10:11	 	NY	Shooting foul on Pablo Prigioni
+10:11	6-3	TOR	DeMar DeRozan made 1st of 2 Free Throws
+10:11	6-3	TOR	DeMar DeRozan missed 2nd of 2 Free Throws
+10:11	 	NY	Defensive Rebound by J.R. Smith
+9:53	6-5	NY	J.R. Smith made Jump Shot
+9:41	 	TOR	Lost ball turnover on Jonas Valanciunas, Stolen by Pablo Prigioni
+9:36	 	TOR	Personal foul on DeMar DeRozan
+9:34	6-5	NY	Amar'e Stoudemire missed Slam Dunk, Blocked by Jonas Valanciunas
+9:28	 	TOR	Defensive Rebound by Amir Johnson
+9:24	 	TOR	Lost ball turnover on Amir Johnson, Stolen by J.R. Smith
+9:17	6-7	NY	J.R. Smith made Driving Dunk
+9:05	 	TOR	Lost ball turnover on DeMar DeRozan, Stolen by J.R. Smith
+8:40	6-7	NY	J.R. Smith missed 3-pt. Jump Shot
+8:35	 	TOR	Defensive Rebound by Kyle Lowry
+8:29	6-7	TOR	Kyle Lowry missed 3-pt. Jump Shot
+8:15	6-7	NY	Cole Aldrich missed Jump Shot
+8:12	 	NY	Offensive Rebound by Amar'e Stoudemire
+8:10	6-7	NY	Amar'e Stoudemire missed Tip-in
+8:07	 	TOR	Defensive Rebound by DeMar DeRozan
+8:01	6-7	TOR	Terrence Ross missed 3-pt. Jump Shot
+7:42	 	TOR	Travelling turnover on DeMar DeRozan
+7:23	 	TOR	Personal foul on Kyle Lowry
+7:17	6-7	NY	Iman Shumpert missed 3-pt. Jump Shot
+7:14	 	TOR	Defensive Rebound by Kyle Lowry
+7:08	6-7	TOR	Jonas Valanciunas missed Layup, Blocked by Cole Aldrich
+7:00	6-7	TOR	DeMar DeRozan missed Jump Shot
+6:57	 	NY	Defensive Rebound by Amar'e Stoudemire
+6:36	6-7	NY	Amar'e Stoudemire missed Jump Shot
+6:36	 	NY	Offensive Rebound by Iman Shumpert
+6:35	6-7	NY	Iman Shumpert missed Tip-in
+6:35	 	NY	Offensive Rebound by Cole Aldrich
+6:34	6-7	NY	Cole Aldrich missed Layup
+6:34	 	NY	Offensive Rebound by Cole Aldrich
+6:33	 	TOR	Shooting foul on Terrence Ross
+6:33	6-8	NY	Cole Aldrich made 1st of 2 Free Throws
+6:33	6-9	NY	Cole Aldrich made 2nd of 2 Free Throws
+6:20	8-9	TOR	Amir Johnson made Floating Jump Shot
+6:06	8-9	NY	Iman Shumpert missed Jump Shot
+6:03	 	TOR	Defensive Rebound by Jonas Valanciunas
+5:50	 	NY	Shooting foul on Jeremy Tyler
+5:50	 	NY	Full Timeout
+5:50	8-9	TOR	Amir Johnson missed 1st of 2 Free Throws
+5:50	8-9	TOR	Amir Johnson missed 2nd of 2 Free Throws
+5:50	 	TOR	Offensive Rebound by Terrence Ross
+5:41	10-9	TOR	Jonas Valanciunas made Layup, Assist Kyle Lowry
+5:23	10-9	NY	Tim Hardaway Jr. missed Jump Shot
+5:20	 	NY	Offensive Rebound by Cole Aldrich
+5:18	10-11	NY	Cole Aldrich made Slam Dunk
+5:03	12-11	TOR	Kyle Lowry made Fadeaway Jump Shot
+4:54	12-11	NY	Jeremy Tyler missed Jump Shot
+4:51	 	TOR	Defensive Rebound by Amir Johnson
+4:42	 	TOR	Lost ball turnover on DeMar DeRozan
+4:24	12-11	NY	Iman Shumpert missed Turnaround Jump Shot
+4:18	 	TOR	Defensive Rebound by Jonas Valanciunas
+4:05	14-11	TOR	Terrence Ross made Jump Shot, Assist Jonas Valanciunas
+3:45	 	TOR	Personal foul on Jonas Valanciunas
+3:45	14-12	NY	Cole Aldrich made 1st of 2 Free Throws
+3:45	14-12	NY	Cole Aldrich missed 2nd of 2 Free Throws
+3:45	 	TOR	Defensive Rebound by Amir Johnson
+3:30	 	TOR	Offensive foul on Tyler Hansbrough
+3:30	 	TOR	Illegal pick turnover on Tyler Hansbrough
+3:15	 	TOR	Personal foul on Amir Johnson
+3:15	14-13	NY	Jeremy Tyler made 1st of 2 Free Throws
+3:15	14-14	NY	Jeremy Tyler made 2nd of 2 Free Throws
+2:57	16-14	TOR	Terrence Ross made Jump Shot, Assist Kyle Lowry
+2:41	16-14	NY	Toure' Murry missed Jump Shot
+2:38	 	TOR	Defensive Rebound by Kyle Lowry
+2:30	19-14	TOR	Kyle Lowry made 3-pt. Jump Shot
+2:08	19-16	NY	Jeremy Tyler made Turnaround Jump Shot
+1:56	22-16	TOR	Kyle Lowry made 3-pt. Jump Shot, Assist Greivis Vasquez
+1:47	22-16	NY	Tim Hardaway Jr. missed Jump Shot
+1:42	 	NY	Offensive Rebound by Cole Aldrich
+1:35	22-18	NY	Toure' Murry made Jump Shot
+1:26	 	TOR	Full Timeout
+1:19	22-18	TOR	Kyle Lowry missed 3-pt. Jump Shot
+1:15	 	TOR	Offensive Rebound by Patrick Patterson
+1:07	22-18	TOR	Patrick Patterson missed 3-pt. Jump Shot
+1:04	 	NY	Defensive Rebound by Toure' Murry
+1:00	22-18	NY	Toure' Murry missed Layup, Blocked by Patrick Patterson
+53.0	 	TOR	Defensive Rebound by Patrick Patterson
+51.0	24-18	TOR	Kyle Lowry made Driving layup, Assist Greivis Vasquez
+51.0	25-18	TOR	Kyle Lowry made Free Throw
+40.0	25-21	NY	Tim Hardaway Jr. made 3-pt. Jump Shot, Assist Toure' Murry
+30.0	 	TOR	Offensive foul on Kyle Lowry
+30.0	 	TOR	Offensive Foul turnover on Kyle Lowry
+26.0	 	NY	Discontinued dribble turnover on Shannon Brown
+6.0	27-21	TOR	Kyle Lowry made Floating Jump Shot, Assist Patrick Patterson
+6.0	 	NY	Shooting foul on Toure' Murry
+6.0	28-21	TOR	Kyle Lowry made Free Throw
+2.0	28-21	NY	Shannon Brown missed Driving layup
+1.0	 	TOR	Defensive Rebound by Tyler Hansbrough
+0.0	End of period.
+
+2ND QTR
+TIME	SCORE	TEAM	PLAY
+11:49	30-21	TOR	Greivis Vasquez made Jump Shot
+11:31	30-21	NY	Shannon Brown missed Turnaround Jump Shot
+11:27	 	TOR	Defensive Rebound by Tyler Hansbrough
+11:15	32-21	TOR	Tyler Hansbrough made Slam Dunk, Assist Nando De Colo
+11:00	32-21	NY	Shannon Brown missed Jump Shot
+10:55	 	TOR	Defensive Rebound by Dwight Buycks
+10:44	34-21	TOR	Greivis Vasquez made Driving layup
+10:35	 	NY	Full Timeout
+10:24	34-23	NY	Amar'e Stoudemire made Slam Dunk, Assist Toure' Murry
+10:10	37-23	TOR	Greivis Vasquez made 3-pt. Jump Shot
+9:48	37-23	NY	Jeremy Tyler missed Layup
+9:44	 	TOR	Defensive Rebound by Nando De Colo
+9:39	 	TOR	Out of bounds turnover on Nando De Colo
+9:30	 	TOR	Personal foul on Patrick Patterson
+9:26	37-23	NY	Toure' Murry missed Driving layup
+9:20	 	TOR	Defensive Rebound by Tyler Hansbrough
+9:13	39-23	TOR	Dwight Buycks made Jump Shot
+8:59	 	NY	Lost ball turnover on Shannon Brown, Stolen by Dwight Buycks
+8:54	 	NY	Personal foul on Shannon Brown
+8:42	 	TOR	Lost ball turnover on Dwight Buycks, Stolen by Iman Shumpert
+8:34	39-25	NY	J.R. Smith made Jump Shot
+8:15	42-25	TOR	Patrick Patterson made 3-pt. Jump Shot, Assist Greivis Vasquez
+8:01	42-25	NY	Amar'e Stoudemire missed Layup
+7:58	 	TOR	Defensive Rebound by Patrick Patterson
+7:50	44-25	TOR	Nando De Colo made Layup, Assist Greivis Vasquez
+7:39	44-27	NY	Tim Hardaway Jr. made Jump Shot
+7:24	44-27	TOR	Patrick Patterson missed Jump Shot
+7:19	 	TOR	Offensive Rebound by Tyler Hansbrough
+7:19	44-27	TOR	Tyler Hansbrough missed Layup, Blocked by Amar'e Stoudemire
+7:13	 	TOR	Offensive Rebound by Patrick Patterson
+7:12	46-27	TOR	Patrick Patterson made Layup
+6:58	46-30	NY	J.R. Smith made 3-pt. Jump Shot
+6:45	 	NY	Personal foul on Amar'e Stoudemire
+6:37	 	TOR	Lost ball turnover on Nando De Colo, Stolen by Cole Aldrich
+6:30	46-30	NY	J.R. Smith missed 3-pt. Jump Shot
+6:27	 	NY	Offensive Rebound by Iman Shumpert
+6:09	46-30	NY	Iman Shumpert missed Jump Shot
+6:06	 	TOR	Defensive Rebound by Tyler Hansbrough
+5:59	46-30	TOR	Nando De Colo missed Jump Shot
+5:58	 	 	Official Timeout
+5:41	46-33	NY	J.R. Smith made 3-pt. Jump Shot, Assist Iman Shumpert
+5:28	 	NY	Personal foul on J.R. Smith
+5:24	46-33	TOR	Greivis Vasquez missed 3-pt. Jump Shot
+5:21	 	NY	Defensive Rebound by Cole Aldrich
+5:10	46-33	NY	J.R. Smith missed 3-pt. Jump Shot
+5:07	 	TOR	Defensive Rebound by Chuck Hayes
+5:00	48-33	TOR	Patrick Patterson made Layup
+4:46	48-33	NY	Tim Hardaway Jr. missed Turnaround Jump Shot
+4:42	 	TOR	Defensive Rebound by Greivis Vasquez
+4:33	51-33	TOR	Greivis Vasquez made 3-pt. Jump Shot, Assist Nando De Colo
+4:22	51-33	NY	Iman Shumpert missed Layup
+4:17	 	TOR	Defensive Rebound by Greivis Vasquez
+4:10	51-33	TOR	Greivis Vasquez missed 3-pt. Jump Shot
+4:06	 	NY	Defensive Rebound by J.R. Smith
+3:59	 	NY	Bad pass turnover on Amar'e Stoudemire
+3:48	51-33	TOR	Kyle Lowry missed 3-pt. Jump Shot
+3:45	 	NY	Defensive Rebound by Cole Aldrich
+3:43	 	NY	Lost ball turnover on Cole Aldrich, Stolen by DeMar DeRozan
+3:36	51-33	TOR	Kyle Lowry missed 3-pt. Jump Shot
+3:33	 	TOR	Offensive Rebound by DeMar DeRozan
+3:32	53-33	TOR	DeMar DeRozan made Tip-in
+3:13	53-36	NY	Iman Shumpert made 3-pt. Jump Shot, Assist J.R. Smith
+3:04	55-36	TOR	Jonas Valanciunas made Turnaround Jump Shot, Assist Kyle Lowry
+2:55	55-36	NY	Toure' Murry missed Layup
+2:49	 	NY	Offensive Rebound by Cole Aldrich
+2:48	55-36	NY	Iman Shumpert missed 3-pt. Jump Shot
+2:45	 	TOR	Defensive Rebound by Jonas Valanciunas
+2:43	 	TOR	Full Timeout
+2:27	 	NY	Shooting foul on Toure' Murry
+2:27	56-36	TOR	DeMar DeRozan made 1st of 2 Free Throws
+2:27	57-36	TOR	DeMar DeRozan made 2nd of 2 Free Throws
+2:05	57-38	NY	J.R. Smith made Fadeaway Jump Shot
+1:51	 	TOR	Lost ball turnover on Kyle Lowry, Stolen by Iman Shumpert
+1:35	57-40	NY	Toure' Murry made Reverse Layup, Assist Cole Aldrich
+1:24	57-40	TOR	Terrence Ross missed 3-pt. Jump Shot
+1:21	 	NY	Defensive Rebound by Cole Aldrich
+1:09	 	TOR	Shooting foul on Kyle Lowry
+1:09	57-40	NY	Iman Shumpert missed 1st of 2 Free Throws
+1:09	57-40	NY	Iman Shumpert missed 2nd of 2 Free Throws
+1:09	 	TOR	Defensive Rebound by DeMar DeRozan
+50.0	57-40	TOR	Dwight Buycks missed Jump Shot
+46.0	 	NY	Defensive Rebound by Jeremy Tyler
+33.0	57-42	NY	Toure' Murry made Driving layup
+29.0	 	NY	Shooting foul on Toure' Murry
+29.0	57-42	TOR	Kyle Lowry missed 1st of 2 Free Throws
+29.0	57-42	TOR	Kyle Lowry missed 2nd of 2 Free Throws
+29.0	 	NY	Defensive Rebound by J.R. Smith
+10.0	57-44	NY	J.R. Smith made Jump Shot
+0.0	End of period.
+
+3RD QTR
+TIME	SCORE	TEAM	PLAY
+11:39	57-44	TOR	Terrence Ross missed Floating Jump Shot
+11:33	 	NY	Defensive Rebound by Amar'e Stoudemire
+11:18	57-46	NY	J.R. Smith made Jump Shot, Assist Pablo Prigioni
+11:04	57-46	TOR	Kyle Lowry missed 3-pt. Jump Shot
+11:01	 	NY	Defensive Rebound by Iman Shumpert
+10:40	57-46	NY	Iman Shumpert missed 3-pt. Jump Shot
+10:32	57-48	NY	Amar'e Stoudemire made Floating Jump Shot
+10:22	59-48	TOR	DeMar DeRozan made Alley-oop, Assist Kyle Lowry
+10:09	59-50	NY	Amar'e Stoudemire made Hook Shot, Assist Pablo Prigioni
+9:57	 	TOR	Lost ball turnover on Kyle Lowry, Stolen by Pablo Prigioni
+9:46	 	NY	Lost ball turnover on J.R. Smith, Stolen by Kyle Lowry
+9:36	 	TOR	Lost ball turnover on Kyle Lowry, Stolen by J.R. Smith
+9:34	59-52	NY	J.R. Smith made Driving Dunk
+9:23	59-52	TOR	Amir Johnson missed Hook Shot
+9:18	 	NY	Defensive Rebound by Cole Aldrich
+9:07	 	NY	Lost ball turnover on Pablo Prigioni, Stolen by Amir Johnson
+8:49	59-52	TOR	Amir Johnson missed 3-pt. Jump Shot
+8:45	 	NY	Defensive Rebound by J.R. Smith
+8:36	59-54	NY	J.R. Smith made Jump Shot
+8:35	 	TOR	Full Timeout
+8:20	59-54	TOR	DeMar DeRozan missed Jump Shot
+8:16	 	TOR	Offensive Rebound by DeMar DeRozan
+8:12	59-54	TOR	DeMar DeRozan missed Layup
+8:07	 	NY	Defensive Rebound by Amar'e Stoudemire
+7:51	59-56	NY	Pablo Prigioni made Jump Shot, Assist Cole Aldrich
+7:36	 	NY	Personal foul on Iman Shumpert
+7:23	59-56	TOR	Jonas Valanciunas missed Turnaround Jump Shot, Blocked by Cole Aldrich
+7:21	 	TOR	24-second shotclock violaton turnover on Jonas Valanciunas
+7:11	59-58	NY	Cole Aldrich made Hook Shot, Assist Pablo Prigioni
+6:58	 	TOR	Lost ball turnover on Amir Johnson, Stolen by J.R. Smith
+6:39	59-58	NY	Tim Hardaway Jr. missed 3-pt. Jump Shot
+6:36	 	TOR	Defensive Rebound by Amir Johnson
+6:30	59-58	TOR	Kyle Lowry missed Layup
+6:25	 	TOR	Offensive Rebound by Jonas Valanciunas
+6:24	61-58	TOR	Jonas Valanciunas made Dunk Shot
+6:05	61-58	NY	J.R. Smith missed Fadeaway Jump Shot
+6:00	 	TOR	Defensive Rebound by Jonas Valanciunas
+5:49	 	TOR	Bad pass turnover on Terrence Ross
+5:49	 	NY	Full Timeout
+5:42	61-58	NY	J.R. Smith missed Jump Shot
+5:37	 	TOR	Defensive Rebound by Greivis Vasquez
+5:19	 	NY	Shooting foul on Pablo Prigioni
+5:19	62-58	TOR	DeMar DeRozan made 1st of 2 Free Throws
+5:19	63-58	TOR	DeMar DeRozan made 2nd of 2 Free Throws
+5:08	63-60	NY	Tim Hardaway Jr. made Driving layup
+4:47	63-60	TOR	Greivis Vasquez missed 3-pt. Jump Shot
+4:43	 	NY	Defensive Rebound by Tim Hardaway Jr.
+4:24	 	NY	Offensive foul on Jeremy Tyler
+4:24	 	NY	Offensive Foul turnover on Jeremy Tyler
+4:06	65-60	TOR	Tyler Hansbrough made Reverse Layup, Assist Kyle Lowry
+3:41	65-63	NY	Toure' Murry made 3-pt. Jump Shot
+3:23	67-63	TOR	Kyle Lowry made Driving layup
+3:02	 	NY	Out of bounds turnover on Toure' Murry
+2:53	67-63	TOR	Kyle Lowry missed Reverse Layup
+2:52	 	TOR	Loose ball foul on Tyler Hansbrough
+2:39	67-66	NY	Toure' Murry made 3-pt. Jump Shot, Assist Tim Hardaway Jr.
+2:18	69-66	TOR	Kyle Lowry made Floating Jump Shot
+2:18	 	NY	Shooting foul on Jeremy Tyler
+2:18	70-66	TOR	Kyle Lowry made Free Throw
+2:00	70-69	NY	Tim Hardaway Jr. made 3-pt. Jump Shot
+1:35	 	TOR	Offensive foul on Kyle Lowry
+1:35	 	TOR	Offensive Foul turnover on Kyle Lowry
+1:23	70-71	NY	Cole Aldrich made Layup, Assist Tim Hardaway Jr.
+1:06	73-71	TOR	Nando De Colo made 3-pt. Jump Shot, Assist Patrick Patterson
+51.0	73-71	NY	Jeremy Tyler missed Jump Shot
+45.0	73-73	NY	Tim Hardaway Jr. made Jump Shot
+31.0	 	TOR	Lost ball turnover on Dwight Buycks, Stolen by Shannon Brown
+29.0	 	TOR	Personal foul on Dwight Buycks
+20.0	 	TOR	Personal foul on Greivis Vasquez
+20.0	73-73	NY	Tim Hardaway Jr. missed 1st of 2 Free Throws
+20.0	73-74	NY	Tim Hardaway Jr. made 2nd of 2 Free Throws
+7.0	 	NY	Personal foul on Shannon Brown
+1.0	 	NY	Shooting foul on Shannon Brown
+1.0	74-74	TOR	Tyler Hansbrough made 1st of 2 Free Throws
+1.0	74-74	TOR	Tyler Hansbrough missed 2nd of 2 Free Throws
+1.0	 	TOR	Offensive Rebound by Nando De Colo
+1.0	74-74	TOR	Nando De Colo missed Fadeaway Jump Shot
+0.0	End of period.
+
+4TH QTR
+TIME	SCORE	TEAM	PLAY
+11:41	74-74	NY	Toure' Murry missed Layup
+11:37	 	NY	Offensive Rebound by Cole Aldrich
+11:33	74-74	NY	Tim Hardaway Jr. missed 3-pt. Jump Shot
+11:30	 	TOR	Defensive Rebound by Tyler Hansbrough
+11:20	74-74	TOR	Tyler Hansbrough missed Layup, Blocked by Cole Aldrich
+11:15	 	NY	Defensive Rebound by Cole Aldrich
+11:06	74-74	NY	Tim Hardaway Jr. missed Layup
+11:02	 	TOR	Defensive Rebound by Tyler Hansbrough
+10:53	 	TOR	Out of bounds turnover on Dwight Buycks
+10:38	 	NY	Lost ball turnover on Tim Hardaway Jr., Stolen by Nando De Colo
+10:33	 	TOR	Offensive foul on Greivis Vasquez
+10:33	 	TOR	Offensive Foul turnover on Greivis Vasquez
+10:33	 	TOR	Technical foul on Greivis Vasquez
+10:33	74-75	NY	Tim Hardaway Jr. made Technical Free Throw
+10:33	 	TOR	Technical foul on Patrick Patterson
+10:33	74-76	NY	Tim Hardaway Jr. made Technical Free Throw
+10:21	 	NY	Lost ball turnover on Shannon Brown, Stolen by Dwight Buycks
+10:18	 	NY	Personal foul on Toure' Murry
+10:08	74-76	TOR	Nando De Colo missed 3-pt. Jump Shot
+10:05	 	NY	Loose ball foul on Cole Aldrich
+9:59	74-76	TOR	Patrick Patterson missed 3-pt. Jump Shot
+9:56	 	NY	Defensive Rebound by Tim Hardaway Jr.
+9:51	 	NY	Offensive foul on Shannon Brown
+9:51	 	NY	Offensive Foul turnover on Shannon Brown
+9:41	77-76	TOR	Greivis Vasquez made 3-pt. Jump Shot, Assist Patrick Patterson
+9:20	77-78	NY	Jeremy Tyler made Hook Shot
+9:03	77-78	TOR	Patrick Patterson missed 3-pt. Jump Shot
+8:59	 	NY	Defensive Rebound by Shannon Brown
+8:56	77-78	NY	Tim Hardaway Jr. missed Alley-oop
+8:56	 	TOR	Defensive Rebound by Greivis Vasquez
+8:53	 	NY	Personal foul on Jeremy Tyler
+8:53	 	 	Official Timeout
+8:43	77-78	TOR	Greivis Vasquez missed Driving layup, Blocked by Cole Aldrich
+8:33	77-78	TOR	Nando De Colo missed Jump Shot
+8:32	 	NY	Loose ball foul on Tim Hardaway Jr.
+8:20	79-78	TOR	Nando De Colo made Driving layup
+8:08	 	NY	Lost ball turnover on Toure' Murry, Stolen by Tyler Hansbrough
+7:45	81-78	TOR	Nando De Colo made Jump Shot
+7:41	 	NY	Full Timeout
+7:28	81-78	NY	Jeremy Tyler missed Layup
+7:23	 	TOR	Defensive Rebound by Nando De Colo
+7:12	81-78	TOR	Dwight Buycks missed Layup
+7:05	 	NY	Defensive Rebound by Toure' Murry
+6:58	81-81	NY	Tim Hardaway Jr. made 3-pt. Jump Shot
+6:41	 	NY	Shooting foul on Iman Shumpert
+6:41	82-81	TOR	Tyler Hansbrough made 1st of 2 Free Throws
+6:41	83-81	TOR	Tyler Hansbrough made 2nd of 2 Free Throws
+6:30	83-81	NY	Toure' Murry missed Floating Jump Shot
+6:25	 	TOR	Defensive Rebound by Steve Novak
+6:19	85-81	TOR	Steve Novak made Jump Shot, Assist Nando De Colo
+6:03	 	TOR	Personal foul on Tyler Hansbrough
+6:00	85-81	NY	Cole Aldrich missed Hook Shot
+5:55	 	NY	Offensive Rebound by Cole Aldrich
+5:47	85-81	NY	Tim Hardaway Jr. missed Jump Shot
+5:43	 	NY	Offensive Rebound by Cole Aldrich
+5:42	85-83	NY	Cole Aldrich made Dunk Shot
+5:24	85-83	TOR	Tyler Hansbrough missed Jump Shot
+5:21	 	NY	Defensive Rebound by Cole Aldrich
+5:14	85-83	NY	Iman Shumpert missed 3-pt. Jump Shot
+5:10	 	TOR	Defensive Rebound by Dwight Buycks
+5:09	 	TOR	Full Timeout
+4:52	87-83	TOR	Tyler Hansbrough made Jump Shot, Assist Nando De Colo
+4:38	87-85	NY	Toure' Murry made Driving layup
+4:38	 	TOR	Shooting foul on Nando De Colo
+4:38	87-86	NY	Toure' Murry made Free Throw
+4:18	87-86	TOR	Steve Novak missed 3-pt. Jump Shot
+4:06	 	NY	Bad pass turnover on Toure' Murry
+3:51	87-86	TOR	Dwight Buycks missed Jump Shot
+3:38	 	TOR	Travelling turnover on Dwight Buycks
+3:21	87-88	NY	J.R. Smith made Hook Shot
+2:55	90-88	TOR	Nando De Colo made 3-pt. Jump Shot, Assist Steve Novak
+2:36	 	NY	Offensive foul on Cole Aldrich
+2:36	 	NY	Offensive Foul turnover on Cole Aldrich
+2:20	90-88	TOR	Nando De Colo missed Layup
+2:14	 	TOR	Offensive Rebound by Tyler Hansbrough
+2:13	90-88	TOR	Tyler Hansbrough missed Tip-in
+2:13	 	NY	Defensive Rebound by Iman Shumpert
+2:10	90-90	NY	J.R. Smith made Slam Dunk, Assist Iman Shumpert
+1:55	90-90	TOR	Dwight Buycks missed 3-pt. Jump Shot
+1:52	 	NY	20-second Timeout
+1:41	90-90	TOR	Steve Novak missed 3-pt. Jump Shot
+1:38	 	NY	Defensive Rebound by Cole Aldrich
+1:27	90-90	NY	J.R. Smith missed Layup
+1:24	 	NY	Offensive Rebound by Cole Aldrich
+1:23	90-92	NY	Cole Aldrich made Slam Dunk
+1:23	 	NY	20-second Timeout
+1:19	90-92	TOR	Nando De Colo missed 3-pt. Jump Shot
+1:16	 	NY	Defensive Rebound by Cole Aldrich
+58.0	90-92	NY	Tim Hardaway Jr. missed Floating Jump Shot
+54.0	 	TOR	Defensive Rebound by Steve Novak
+49.0	90-92	TOR	Dwight Buycks missed Jump Shot
+47.0	 	NY	Defensive Rebound by Cole Aldrich
+37.0	 	TOR	Personal foul on Nando De Colo
+23.0	90-94	NY	J.R. Smith made Jump Shot
+22.0	 	TOR	Full Timeout
+19.0	90-94	TOR	Nando De Colo missed Jump Shot
+16.0	 	TOR	Offensive Rebound by Tyler Hansbrough
+14.0	92-94	TOR	Tyler Hansbrough made Layup
+14.0	 	NY	Shooting foul on Iman Shumpert
+14.0	92-94	TOR	Tyler Hansbrough missed Free Throw
+14.0	 	TOR	Offensive Rebound by Steve Novak
+8.0	92-94	TOR	Dwight Buycks missed 3-pt. Jump Shot
+6.0	 	TOR	20-second Timeout
+5.0	 	TOR	Lost ball turnover on Chuck Hayes, Stolen by J.R. Smith
+4.0	 	TOR	Personal foul on Nando De Colo
+4.0	92-95	NY	J.R. Smith made 1st of 2 Free Throws
+4.0	92-95	NY	J.R. Smith missed 2nd of 2 Free Throws
+4.0	 	TOR	Defensive Rebound by Steve Novak
+2.0	 	TOR	Lost ball turnover on Steve Novak
+0.0	End of period.
