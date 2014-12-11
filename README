@@ -1,0 +1,27 @@
+Project Name: NBA on TNT NLP: Natural Language Generation of Textual Commentary for NBA Basketball Games
+Team Members: Jacob Bustamante, Nathaniel Chamness
+
+Dependencies:
+Python3.
+BeautifulSoup. Can be downloaded from http://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-beautiful-soup
+SQLite. Can be downloaded from http://www.sqlite.org/download.html
+
+How to run:
+
+If the foxsports.db SQLite file does not exist, then you must build it:
+	1) Navigate to the source folder.
+	2) Build the SQLite db file.
+		run: sqlite3 foxsports.db < foxsports_schema.sql
+	3) Fill the newly created foxsports.db SQLite file
+		run: python3 scrape_foxsports.py
+	4) Done. foxsports.db should be filled with all 2013-2014 regular season NBA data.
+
+Generate commentary for a game:
+	1) Navigate to source folder.
+	2) Run the generator with the id of any regular season NBA game, which is an integer from 1 to 1230.
+		for game 1…
+		run: python3 gen_commentary.py 1
+		for game 1228
+		run: python3 gen_commentary.py 1228
+	3) The output text is the generated textual commentary.
+
