@@ -4,7 +4,7 @@ Team Members: Jacob Bustamante, Nathaniel Chamness
 Dependencies:
 Python3.
 BeautifulSoup. Can be downloaded from http://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-beautiful-soup
-SQLite. Can be downloaded from http://www.sqlite.org/download.html
+SQLite3. Should be included in most systems, but can be downloaded from http://www.sqlite.org/download.html
 
 How to run:
 
