@@ -1,0 +1,9 @@
+Project Name: NBA on TNT NLP: Natural Language Generation of Textual Commentary for NBA Basketball Games
+Team Members: Jacob Bustamante, Nathaniel Chamness
+
+DATA FOLDER
+
+1) The foxsports_gamepages folder found here must be placed under source/webpages/.
+2) The resulting directory will be source/webpages/foxsports_gamepages.
+3) Done.
+
